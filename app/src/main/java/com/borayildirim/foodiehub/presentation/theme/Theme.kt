@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.ui.theme
+package com.borayildirim.foodiehub.presentation.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.ui.theme
+package com.borayildirim.foodiehub.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
