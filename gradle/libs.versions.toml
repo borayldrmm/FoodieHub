@@ -16,6 +16,7 @@ navigationCompose = "2.9.3"
 room = "2.7.2"
 coroutines = "1.10.2"
 ksp = "2.1.20-1.0.31"
+uiTextGoogleFonts = "1.8.3"
 
 [libraries]
 # Existing

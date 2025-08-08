@@ -1,30 +1,82 @@
 package com.borayildirim.foodiehub.presentation.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.borayildirim.foodiehub.R
+import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientFirst
+import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientSecond
+import com.borayildirim.foodiehub.presentation.theme.splashTitle
 import com.borayildirim.foodiehub.presentation.viewmodels.SplashViewModel
 
 @Composable
 fun SplashScreen() {
     val viewModel = hiltViewModel<SplashViewModel>()
+    val state by viewModel.uiState.collectAsState()
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
 
-    ) {
-        Text(
-            text = "This is a test screen",
-            fontSize = 22.sp
-        )
+    LaunchedEffect(Unit) {
+        viewModel.startSplash()
     }
+
+
+    Box (modifier = Modifier
+        .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        SplashBgGradientFirst,
+                        SplashBgGradientSecond
+                    )
+                )
+            )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Spacer(Modifier.size(250.dp))
+
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.splashTitle,
+                fontSize = 60.sp
+            )
+
+            Spacer(Modifier.size(300.dp))
+
+            Image(
+                painterResource(R.drawable.splash_screen_burger_left),
+                contentDescription = "burger_image",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .size(width = 246.dp, height = 288.dp)
+            )
+
+        }
+    }
+
 
 }
