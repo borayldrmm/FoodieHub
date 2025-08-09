@@ -31,13 +31,21 @@ import com.borayildirim.foodiehub.presentation.theme.splashTitle
 import com.borayildirim.foodiehub.presentation.viewmodels.SplashViewModel
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavController) {
     val viewModel = hiltViewModel<SplashViewModel>()
-    val state by viewModel.uiState.collectAsState()
+    val shouldNavigate by viewModel.shouldNavigate.collectAsState()
 
 
     LaunchedEffect(Unit) {
         viewModel.startSplash()
+    }
+
+    LaunchedEffect(shouldNavigate) {
+        if (shouldNavigate) {
+            navController.navigate(Route.Home.route) {
+                popUpTo(Route.Splash.route) { inclusive = true}
+            }
+        }
     }
 
 
