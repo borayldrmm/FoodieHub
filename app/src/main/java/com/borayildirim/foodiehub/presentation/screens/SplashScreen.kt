@@ -7,13 +7,11 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -90,14 +88,14 @@ fun SplashScreen(navController: NavController) {
 
     Box (modifier = Modifier
         .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        SplashBgGradientFirst,
-                        SplashBgGradientSecond
-                    )
+        .background(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    SplashBgGradientFirst,
+                    SplashBgGradientSecond
                 )
             )
+        )
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -112,7 +110,6 @@ fun SplashScreen(navController: NavController) {
                 fontSize = 60.sp
             )
 
-            Spacer(Modifier.size(300.dp))
             Spacer(Modifier.size(50.dp))
 
             RotatingBurger()
@@ -121,14 +118,11 @@ fun SplashScreen(navController: NavController) {
 
             Image(
                 painterResource(R.drawable.splash_screen_burger_left),
-                contentDescription = "burger_image",
+                contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .size(width = 246.dp, height = 288.dp)
             )
-
         }
     }
-
-
 }
