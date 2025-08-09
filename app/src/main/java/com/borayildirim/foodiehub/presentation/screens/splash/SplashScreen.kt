@@ -23,11 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.ProgressBarRangeInfo
-import androidx.compose.ui.semantics.progressBarRangeInfo
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.borayildirim.foodiehub.R
@@ -35,6 +31,7 @@ import com.borayildirim.foodiehub.presentation.navigation.Route
 import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientFirst
 import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientSecond
 import com.borayildirim.foodiehub.presentation.theme.splashTitle
+import com.borayildirim.foodiehub.presentation.ui.components.RotatingBurger
 import com.borayildirim.foodiehub.presentation.viewmodels.SplashViewModel
 
 /**
@@ -108,38 +105,16 @@ fun SplashScreen(navController: NavController) {
         }
     }
 
-    @Composable
-    fun RotatingBurger() {
-        val transition = rememberInfiniteTransition(label = "")
+    SplashContent()
 
-        val angle by transition.animateFloat(
-            initialValue = 0f,
-            targetValue = 360f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(1200),
-                repeatMode = RepeatMode.Restart
-            ),
-            label = ""
-        )
+}
 
-        Image(
-            painter = painterResource(id = R.drawable.rotating_burger),
-            contentDescription = stringResource(R.string.splash_loading),
-            modifier = Modifier
-                .graphicsLayer(
-                    rotationZ = angle,
-                    transformOrigin = TransformOrigin.Center
-                )
-                .semantics {
-                    progressBarRangeInfo = ProgressBarRangeInfo.Indeterminate
-                }
-        )
-    }
-
-    Box (modifier = Modifier
+@Composable
+fun SplashContent() {
+    Box(modifier = Modifier
         .fillMaxSize()
         .background(
-            brush = Brush.verticalGradient(
+            Brush.verticalGradient(
                 colors = listOf(
                     SplashBgGradientFirst,
                     SplashBgGradientSecond

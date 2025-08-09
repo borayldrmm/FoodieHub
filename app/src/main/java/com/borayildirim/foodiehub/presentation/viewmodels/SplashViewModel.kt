@@ -17,7 +17,7 @@ class SplashViewModel @Inject constructor (): ViewModel() {
 
     fun startSplash() {
         viewModelScope.launch {
-            delay(2000)
+            delay(2500)
             _shouldNavigate.value = true
 
         }
