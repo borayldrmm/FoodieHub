@@ -4,4 +4,5 @@
     <string name="order_your_favourite_food">Order your favourite food!</string>
     <string name="welcome_to_foodiehub">Welcome to FoodieHub</string>
     <string name="discover_delicious_meals">Discover delicious meals from your favorite restaurants</string>
+    <string name="splash_loading">Yükleniyor...</string>
 </resources>
