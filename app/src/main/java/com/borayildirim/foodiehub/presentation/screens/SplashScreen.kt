@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
@@ -112,6 +113,11 @@ fun SplashScreen(navController: NavController) {
             )
 
             Spacer(Modifier.size(300.dp))
+            Spacer(Modifier.size(50.dp))
+
+            RotatingBurger()
+
+            Spacer(Modifier.size(150.dp))
 
             Image(
                 painterResource(R.drawable.splash_screen_burger_left),
