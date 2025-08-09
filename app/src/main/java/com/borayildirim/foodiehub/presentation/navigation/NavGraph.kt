@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.borayildirim.foodiehub.presentation.screens.HomeScreen
-import com.borayildirim.foodiehub.presentation.screens.SplashScreen
+import com.borayildirim.foodiehub.presentation.screens.home.HomeScreen
+import com.borayildirim.foodiehub.presentation.screens.splash.SplashScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {

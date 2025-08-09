@@ -18,7 +18,7 @@ val Typography.splashTitle: TextStyle
     get() = TextStyle(
         fontFamily = LobsterFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 48.sp,
+        fontSize = 60.sp,
         lineHeight = 56.sp,
         letterSpacing = 0.sp,
         color = SplashTextColor

@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.borayildirim.foodiehub.presentation.navigation.NavGraph
+import com.borayildirim.foodiehub.presentation.screens.splash.SplashScreen
 import com.borayildirim.foodiehub.presentation.theme.FoodieHubTheme
+import com.borayildirim.foodiehub.presentation.ui.components.RotatingBurger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +33,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Preview() {
     FoodieHubTheme {
-
+        
     }
 }
