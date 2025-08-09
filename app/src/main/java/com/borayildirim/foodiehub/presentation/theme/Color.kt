@@ -11,6 +11,6 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 //ProjectColors
-val SplashBgGradientFirst = Color(0xFFFF939B)
-val SplashBgGradientSecond = Color(0xFFEF2A39)
+val SplashBgGradientFirst = Color(0xFFDE737B)
+val SplashBgGradientSecond = Color(0xFFD30A12)
 val SplashTextColor = Color(0xFFFFFFFF)
