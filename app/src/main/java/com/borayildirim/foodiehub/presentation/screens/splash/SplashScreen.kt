@@ -40,6 +40,61 @@ import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientSecond
 import com.borayildirim.foodiehub.presentation.theme.splashTitle
 import com.borayildirim.foodiehub.presentation.viewmodels.SplashViewModel
 
+
+/**
+ * Configuration for decorative burger images with responsive ratios
+ * Base calculations assume dynamic screen width adaptation
+ */
+object BurgerImageConfig {
+    data class ImageSpec(
+        val resId: Int,
+        val widthRatio: Float,
+        val aspectRatio: Float,
+        val paddingRatio: Float
+    )
+
+    val images = listOf(
+        ImageSpec(
+            resId = R.drawable.splash_screen_burger_1,
+            widthRatio = 0.5f,
+            aspectRatio = 1.235f,   // Original: 200x245 -> height/width ratio
+            paddingRatio = 0f
+        ),
+        ImageSpec(
+            resId = R.drawable.splash_screen_burger_shadow_1,
+            widthRatio = 0.2f,
+            aspectRatio = 2.4f,
+            paddingRatio = 0f
+        ),
+        ImageSpec(
+            resId = R.drawable.splash_screen_burger_shadow_2,
+            widthRatio = 0.20f,
+            aspectRatio = 1.6f,
+            paddingRatio = 0.25f
+        ),
+        ImageSpec(
+            resId = R.drawable.splash_screen_burger_shadow_3,
+            widthRatio = 0.3f,
+            aspectRatio = 0.15f,
+            paddingRatio = 0.47f
+        ),
+        ImageSpec(
+            resId = R.drawable.splash_screen_burger_2,
+            widthRatio = 1f,
+            aspectRatio = 0.38f,
+            paddingRatio = 0f
+        )
+    )
+
+}
+
+data class BurgerImageData(
+    val resId: Int,
+    val startPadding: Int,
+    val width: Int,
+    val height: Int
+)
+
 @Composable
 fun SplashScreen(navController: NavController) {
     val viewModel = hiltViewModel<SplashViewModel>()
@@ -97,32 +152,63 @@ fun SplashScreen(navController: NavController) {
             )
         )
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        CenterContent(modifier = Modifier.align(Alignment.Center))
+        DecorativeBurgers()
+    }
+}
 
-            Spacer(Modifier.size(250.dp))
+@Composable
+fun CenterContent(modifier: Modifier = Modifier) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.splashTitle
+        )
+        Spacer(Modifier.size(20.dp))
+        RotatingBurger(modifier = Modifier.size(70.dp))
+    }
+}
 
-            Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.splashTitle,
-                fontSize = 60.sp
-            )
+@Composable
+fun BoxScope.DecorativeBurgers() {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
 
-            Spacer(Modifier.size(50.dp))
+    val burgerImages = remember(screenWidth) {
+        BurgerImageConfig.images.map { spec ->
+            val width = (screenWidth * spec.widthRatio).toInt()
+            val height = (width * spec.aspectRatio).toInt()
+            val padding = (screenWidth * spec.paddingRatio).toInt()
 
-            RotatingBurger()
-
-            Spacer(Modifier.size(150.dp))
-
-            Image(
-                painterResource(R.drawable.splash_screen_burger_left),
-                contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(width = 246.dp, height = 288.dp)
+            BurgerImageData(
+                resId = spec.resId,
+                startPadding = padding,
+                width = width,
+                height = height
             )
         }
+    }
+
+    burgerImages.forEach { burgerData ->
+        Image(
+            painter = painterResource(id = burgerData.resId),
+            contentDescription = null,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = burgerData.startPadding.dp)
+                .size(width = burgerData.width.dp, height = burgerData.height.dp)
+        )
+    }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    FoodieHubTheme {
+        SplashContent()
     }
 }
