@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.presentation.screens.home
+package com.borayildirim.foodiehub.presentation.screens
 
 import androidx.navigation.NavController
 
