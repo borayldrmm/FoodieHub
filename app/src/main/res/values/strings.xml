@@ -5,4 +5,18 @@
     <string name="welcome_to_foodiehub">Welcome to FoodieHub</string>
     <string name="discover_delicious_meals">Discover delicious meals from your favorite restaurants</string>
     <string name="splash_loading">Yükleniyor...</string>
+    <string name="hamburger_description">Doyurucu lezzetiyle klasik dana burgerlerin en sevilen halini sunuyor. Özenle pişirilmiş sulu dana köftesi; taptaze marul, olgun domates dilimleri, çıtır turşular ve kremamsı sos eşliğinde, susamlı yumuşacık ekmeğin arasında buluşuyor.</string>
+    <string name="cheeseburger_description">Her ısırıkta yoğun bir lezzet sunan klasik bir hamburger. Mükemmel şekilde pişirilmiş sulu dana köfteleriyle hazırlanarak üzerine erimiş cheddar peyniri, Amerikan peyniri, çıtır marul, olgun domates ve çıtır turşular eklenir.</string>
+    <string name="veggie_burger_description">Taze sebzeler ve aromatik sebzelerin nefis karışımıyla hazırlanan bu burger, üzerine eklenen çıtır marul, sulu domates dilimleri ve hafif ekşi turşularla taçlanıyor. Yumuşacık, hafifçe kızartılmış ekmeğin arasında servis edilerek, vejeteryan ve sağlıklı olduğu kadar doyurucu bir lezzet sunuyor.</string>
+    <string name="chicken_burger_description">Tavuk Burgerimiz, geleneksel dana burgerlere lezzetli ve daha hafif bir alternatif sunuyor. Daha sağlıklı bir seçenek arayanlar için mükemmel bir tercih! Hemen deneyin ve Chicken Burger’ımızın ağız sulandıran eşsiz lezzetini keşfedin.</string>
+    <string name="fried_chicken_burger_description">Sulu tavuk köftesiyle hazırlanan bu özel burger, elde kaplanarak mükemmel şekilde kızartılır ve çıtır çıtır bir lezzet sunar. Taptaze marul, domates ve kremsi bir sos eşliğinde, sıcak ve yumuşacık ekmeğin arasında servis edilir.</string>
+    <string name="texas_burger_description">Bol malzemesiyle tam bir lezzet şöleni sunuyor! Izgara tavuk ve dana köftesinin enfes uyumu; çıtır bacon, eriyen cheddar peyniri, taptaze marul, domates ve soğanla birleşiyor. Özel soslarla tamamlanan bu burger, doyuruculuğu ve yoğun aromasıyla gerçek bir “Texas tarzı” deneyim yaşatıyor.</string>
+    <string name="pepperoni_pizza_description">Bol mozzarella ve baharatlı pepperoni dilimleriyle en popüler lezzetlerden biri olan Pepperoni Pizzayı denedin mi?</string>
+    <string name="vegetable_pizza_description">Taze sebzeler, zeytin, mantar ve mozzarella ile hazırlanan hafif ve doyurucu lezzet!</string>
+    <string name="margherita_pizza_description">Domates, mozzarella ve fesleğenin uyumuyla hazırlanan klasik İtalyan lezzeti; her lokmada tazeliği ve sadeliği hisset!</string>
+    <string name="mixed_pizza_description">Etli ve sebzeli çeşitlerin buluştuğu, her dilimi farklı tatlar sunan pizza; doyurucu malzemeleri, bol peyniri ve renkli görselliğiyle hem paylaşmak hem de tek başına keyifle yemek için muhteşem bir seçim!</string>
+    <string name="mediterranean_chicken_salad_description">Izgara tavuk parçaları, zeytin, beyaz peynir, humus ve taze yeşilliklerle hazırlanan bu salata, hem doyurucu hem de ferahlatıcı bir öğün alternatifi sunar.</string>
+    <string name="avocado_chicken_salad_description">Taze yeşillikler, baharatlı tavuk, avokado dilimleri ve kırmızı biberle hazırlanan bu salata, hem sağlıklı hem de hafif öğün arayanlar için besleyici bir seçimdir.</string>
+    <string name="spicy_chicken_quinoa_salad_description">Kinoa, tavuk şeritleri, havuç, jalapeno ve közlenmiş tatlı patates parçalarıyla hazırlanan bu salata, protein açısından zengin, hafif acılı ve enerji veren bir lezzet sunar.</string>
+    <string name="egg_mediterranean_salad_description">Taze marul yaprakları, kırmızı soğan, pancar parçaları, kurutulmuş meyveler ve haşlanmış yumurta dilimleriyle hazırlanan bu salata, hafif ve dengeli bir öğün seçeneği sağlar.</string>
 </resources>
