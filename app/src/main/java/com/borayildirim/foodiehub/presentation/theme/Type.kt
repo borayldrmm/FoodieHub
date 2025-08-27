@@ -13,8 +13,16 @@ val LobsterFontFamily = FontFamily(
     Font(R.font.lobster_regular, FontWeight.Normal)
 )
 
+val PoppinsFontFamily = FontFamily(
+    Font(R.font.poppins_medium, FontWeight.Medium)
+)
+
+val RobotoFontFamily = FontFamily(
+    Font(R.font.roboto, FontWeight.Medium)
+)
+
 // Extension Properties for Custom Typography
-val Typography.splashTitle: TextStyle
+val Typography.appNameTitle: TextStyle
     get() = TextStyle(
         fontFamily = LobsterFontFamily,
         fontWeight = FontWeight.Normal,
@@ -22,6 +30,26 @@ val Typography.splashTitle: TextStyle
         lineHeight = 56.sp,
         letterSpacing = 0.sp,
         color = SplashTextColor
+    )
+
+val Typography.homeSubtitle: TextStyle
+    get() = TextStyle(
+        fontFamily = PoppinsFontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        color = HomeSubtitleColor
+    )
+
+val Typography.robotoTxt: TextStyle
+    get() = TextStyle(
+        fontFamily = RobotoFontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        color = HomeSubtitleColor
     )
 
 // Set of Material typography styles to start with

@@ -1,7 +1,9 @@
 package com.borayildirim.foodiehub.presentation.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
@@ -22,11 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.presentation.navigation.Route
 
 
@@ -38,6 +43,7 @@ import com.borayildirim.foodiehub.presentation.navigation.Route
  * - Custom notched shape for FAB integration
  * - Dynamic icon states (filled/outlined) based on selection
  * - Material3 design system compliance
+ * - TRANSPARENT BACKGROUND for content visibility
  *
  * @param navController Navigation controller for routing between screens
  */
@@ -47,17 +53,17 @@ fun BottomNavigationBar(navController: NavController) {
     val currentRoute = currentDestination.value?.destination?.route
 
     // Dynamic icon selection: filled when selected, outlined when inactive
-    // Provides clear visual feedback for current navigation state
     val homeIcon = if (currentRoute == Route.Home.route) Icons.Filled.Home else Icons.Outlined.Home
     val favIcon = if (currentRoute == Route.Favorites.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder
     val cartIcon = if (currentRoute == Route.Cart.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart
     val profileIcon = if (currentRoute == Route.Profile.route) Icons.Filled.Person else Icons.Outlined.Person
+
     val screenWidth = LocalConfiguration.current.screenWidthDp
 
     // Calculate responsive dimensions based on screen width
-    val fabSize = remember(screenWidth) { (screenWidth * 0.19f).dp }    // FAB size: 19% of screen width for optimal touch target
+    val fabSize = remember(screenWidth) { (screenWidth * 0.19f).dp }
     val barHeight = maxOf(72.dp, fabSize * 0.95f)
-    val centerGap = fabSize + (fabSize * 0.40f)                         // Center gap calculation: FAB width + 40% padding for visual balance
+    val centerGap = fabSize + (fabSize * 0.40f)
 
     val notchedShape = remember(fabSize) {
         BottomBarNotchedShape(
@@ -68,77 +74,89 @@ fun BottomNavigationBar(navController: NavController) {
         )
     }
 
-    Box() {
-        Surface(
-            color = MaterialTheme.colorScheme.primary,
-            tonalElevation = 8.dp,
-            shape = notchedShape,
-            modifier = Modifier.height(barHeight)
+    // Main container with transparent background
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        // Bottom navigation bar with clipped shape
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(barHeight)
+                .clip(notchedShape)
+                .background(MaterialTheme.colorScheme.onPrimary)
         ) {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.onPrimary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                tonalElevation = 0.dp,
-                windowInsets = NavigationBarDefaults.windowInsets
+                containerColor = Color.Transparent,
+                contentColor = Color.White,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 NavigationBarItem(
                     selected = currentRoute == Route.Home.route,
                     onClick = { navController.navigate(Route.Home.route) },
-                    icon = { Icon(homeIcon, contentDescription = "Home") },
+                    icon = { Icon(homeIcon, contentDescription = "Home", tint = Color.White) },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,  // Selected icon color
-                        unselectedIconColor = Color.White, // Unselected icon color
-                        indicatorColor = Color.Transparent  // ← Hide INDICATOR
-                    )
-                )
-                NavigationBarItem(
-                    selected = currentRoute == Route.Favorites.route,
-                    onClick = { navController.navigate(Route.Favorites.route)},
-                    icon = { Icon(favIcon, contentDescription = "Favorites") },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,  // Selected icon color
-                        unselectedIconColor = Color.White, // Unselected icon color
-                        indicatorColor = Color.Transparent  // ← Hide INDICATOR
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.White.copy(alpha = 0.7f),
+                        indicatorColor = Color.Transparent
                     )
                 )
 
-                Spacer(Modifier.width(centerGap))           // FAB + notch için oransal boşluk
+                NavigationBarItem(
+                    selected = currentRoute == Route.Favorites.route,
+                    onClick = { navController.navigate(Route.Favorites.route) },
+                    icon = { Icon(favIcon, contentDescription = "Favorites", tint = Color.White) },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.White.copy(alpha = 0.7f),
+                        indicatorColor = Color.Transparent
+                    )
+                )
+
+                // Spacer for FAB notch
+                Spacer(Modifier.width(centerGap))
 
                 NavigationBarItem(
                     selected = currentRoute == Route.Cart.route,
                     onClick = { navController.navigate(Route.Cart.route) },
-                    icon = { Icon(cartIcon, contentDescription = "Cart") },
+                    icon = { Icon(cartIcon, contentDescription = "Cart", tint = Color.White) },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,  // Selected icon color
-                        unselectedIconColor = Color.White, // Unselected icon color
-                        indicatorColor = Color.Transparent  // ← Hide INDICATOR
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.White.copy(alpha = 0.7f),
+                        indicatorColor = Color.Transparent
                     )
                 )
+
                 NavigationBarItem(
                     selected = currentRoute == Route.Profile.route,
                     onClick = { navController.navigate(Route.Profile.route) },
-                    icon = { Icon(profileIcon, contentDescription = "Profile") },
+                    icon = { Icon(profileIcon, contentDescription = "Profile", tint = Color.White) },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,  // Selected icon color
-                        unselectedIconColor = Color.White, // Unselected icon color
-                        indicatorColor = Color.Transparent  // ← Hide INDICATOR
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.White.copy(alpha = 0.7f),
+                        indicatorColor = Color.Transparent
                     )
                 )
             }
         }
 
+        // Floating Action Button
         FloatingActionButton(
             onClick = { navController.navigate(Route.Add.route) },
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = Color.White,
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .size(fabSize)
                 .offset(y = (-fabSize * 0.7f))
         ) {
-            Icon(Icons.Filled.Add,
-                contentDescription = "New Order",
-                modifier = Modifier.size(fabSize * 0.5f))
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = stringResource(R.string.bottom_nav_new_order),
+                modifier = Modifier.size(fabSize * 0.5f),
+                tint = Color.White
+            )
         }
     }
 }

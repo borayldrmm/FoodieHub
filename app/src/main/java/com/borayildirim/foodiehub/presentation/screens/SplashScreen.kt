@@ -30,7 +30,7 @@ import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.presentation.navigation.Route
 import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientFirst
 import com.borayildirim.foodiehub.presentation.theme.SplashBgGradientSecond
-import com.borayildirim.foodiehub.presentation.theme.splashTitle
+import com.borayildirim.foodiehub.presentation.theme.appNameTitle
 import com.borayildirim.foodiehub.presentation.ui.components.RotatingBurger
 import com.borayildirim.foodiehub.presentation.viewmodels.SplashViewModel
 
@@ -136,7 +136,7 @@ fun CenterContent(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.splashTitle
+            style = MaterialTheme.typography.appNameTitle
         )
         Spacer(Modifier.size(20.dp))
         RotatingBurger(modifier = Modifier.size(70.dp))

@@ -5,12 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.borayildirim.foodiehub.presentation.navigation.NavGraph
@@ -32,9 +35,8 @@ import dagger.hilt.android.AndroidEntryPoint
  * - Navigation state management with Jetpack Navigation
  * - Material3 theme integration
  * - Edge-to-edge display support
+ * - TRANSPARENT Scaffold background for proper content visibility
  *
- * @since 1.0.0
- * @author FoodieHub Team
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -53,8 +55,14 @@ class MainActivity : ComponentActivity() {
                 /**
                  * Conditional UI rendering: Bottom navigation is hidden during splash screen
                  * to provide distraction-free app loading experience, then shown for main app navigation.
+                 *
+                 * IMPORTANT: Scaffold containerColor is set to Transparent to ensure
+                 * the bottom navigation bar's transparent areas show the content behind.
                  */
                 Scaffold(
+                    containerColor = Color.Transparent,  // Transparent background
+                    contentColor = Color.Black,
+                    contentWindowInsets = WindowInsets(0.dp),  // Remove default insets
                     bottomBar = {
                         if (showBottomBar) {
                             BottomNavigationBar(navController)
@@ -76,6 +84,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Preview() {
     FoodieHubTheme {
-
+        // Preview content here
     }
 }

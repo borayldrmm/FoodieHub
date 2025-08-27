@@ -69,4 +69,5 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
     implementation(libs.coroutines.android)
+    implementation(libs.androidx.material.icons.extended)
 }
