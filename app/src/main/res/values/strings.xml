@@ -5,4 +5,26 @@
     <string name="welcome_to_foodiehub">Welcome to FoodieHub</string>
     <string name="discover_delicious_meals">Discover delicious meals from your favorite restaurants</string>
     <string name="splash_loading">Yükleniyor...</string>
+    <string name="hamburger_description">Sulu dana köftesi, marul ve domatesle klasik burger.</string>
+    <string name="cheeseburger_description">Dana köftesi ve erimiş cheddar peyniriyle burger.</string>
+    <string name="veggie_burger_description">Sebze köftesi, marul ve domatesle hafif burger.</string>
+    <string name="chicken_burger_description">Tavuk köftesiyle hafif ve lezzetli burger.</string>
+    <string name="fried_chicken_burger_description">Kızarmış tavuk köftesiyle çıtır burger.</string>
+    <string name="texas_burger_description">Dana, tavuk, bacon ve cheddarlı Texas burger.</string>
+    <string name="pepperoni_pizza_description">Mozzarella ve pepperoni dilimleriyle pizza.</string>
+    <string name="vegetable_pizza_description">Taze sebzeler ve mozzarella ile pizza.</string>
+    <string name="margherita_pizza_description">Domates, mozzarella ve fesleğenli pizza.</string>
+    <string name="mixed_pizza_description">Etli ve sebzeli çeşitlerle karışık pizza.</string>
+    <string name="mediterranean_chicken_salad_description">Tavuk, zeytin ve peynirli Akdeniz salatası.</string>
+    <string name="avocado_chicken_salad_description">Tavuk ve avokadoyla sağlıklı salata.</string>
+    <string name="spicy_chicken_quinoa_salad_description">Kinoa ve tavukla acılı salata.</string>
+    <string name="egg_mediterranean_salad_description">Marul ve yumurtalı Akdeniz salatası.</string>
+    <string name="home_subtitle_text">Favori lezzetini seç ve sipariş ver!</string>
+    <string name="profile_content_description">Profil</string>
+    <string name="filter_content_description">Filtrele</string>
+    <string name="burger_image">Burger Resmi</string>
+    <string name="home_food_grid_rating">Derecelendirme</string>
+    <string name="home_food_grid_add_favorite">Favori</string>
+    <string name="home_search_bar_placeHolder">Arama</string>
+    <string name="bottom_nav_new_order">Sipariş ver</string>
 </resources>
