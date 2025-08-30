@@ -1,7 +1,9 @@
 package com.borayildirim.foodiehub.di
 
+import com.borayildirim.foodiehub.data.repository.CartRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.FoodRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.UserRepositoryImpl
+import com.borayildirim.foodiehub.domain.repository.CartRepository
 import com.borayildirim.foodiehub.domain.repository.FoodRepository
 import com.borayildirim.foodiehub.domain.repository.UserRepository
 import dagger.Binds
@@ -14,6 +16,10 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
     @Binds
     abstract fun bindUserRepository(implementation: UserRepositoryImpl): UserRepository
+
     @Binds
     abstract fun bindFoodRepository(implementation: FoodRepositoryImpl): FoodRepository
+
+    @Binds
+    abstract fun bindCardRepository(implementation: CartRepositoryImpl): CartRepository
 }
