@@ -45,12 +45,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FoodieHubTheme {
+                val mainScreenRoutes = listOf(
+                    Route.Home.route,
+                    Route.Favorites.route,
+                    Route.Cart.route,
+                    Route.Profile.route
+                )
                 val navController = rememberNavController()
                 val currentDestination = navController.currentBackStackEntryAsState()
                 val currentRoute = currentDestination.value?.destination?.route
                 val showBottomBar = remember(currentRoute) {
-                    currentRoute != Route.Splash.route
+                    mainScreenRoutes.contains(currentRoute)
                 }
+
 
                 /**
                  * Conditional UI rendering: Bottom navigation is hidden during splash screen

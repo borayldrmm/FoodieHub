@@ -27,4 +27,23 @@
     <string name="home_food_grid_add_favorite">Favori</string>
     <string name="home_search_bar_placeHolder">Arama</string>
     <string name="bottom_nav_new_order">Sipariş ver</string>
+    <string name="customization_sc_back_icon">Geri</string>
+    <string name="customization_sc_search_icon">Ara</string>
+    <string name="customization_sc_customize_txt">Tam Sana Göre Bir Lezzet Oluştur. Lezzet Yolculuğu Başlasın!</string>
+    <string name="spicy_txt">Baharat Seviyesi</string>
+    <string name="mild_txt">Baharatsız</string>
+    <string name="hot_txt">Baharatlı</string>
+    <string name="portion_txt">Porsiyon</string>
+    <string name="lower_txt">Azalt</string>
+    <string name="higher_txt">Artır</string>
+    <string name="toppings_txt">Malzemeler</string>
+    <string name="side_options_txt">Yan Ürünler</string>
+    <string name="total_txt">Toplam</string>
+    <string name="order_now_txt">SİPARİŞ VER</string>
+    <string name="selected_txt">Seçili</string>
+    <string name="added_txt">Eklendi</string>
+    <string name="loading_txt">Yükleniyor...</string>
+    <string name="customize_txt">Özelleştir</string>
+    <string name="back_txt">Geri</string>
+    <string name="add_txt">Ekle</string>
 </resources>
