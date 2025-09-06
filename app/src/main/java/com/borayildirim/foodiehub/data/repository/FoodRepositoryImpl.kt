@@ -16,6 +16,10 @@ class FoodRepositoryImpl @Inject constructor(): FoodRepository {
                 MockFoodData.getDrinks()
     }
 
+    override suspend fun getFood(foodId: Int): Food? {
+        return getFoods().find { it.id == foodId }
+    }
+
     override suspend fun getCategories(): List<Category> {
         return listOf(
             Category(id = 1, name = "All", isSelected = true),

@@ -1,7 +1,6 @@
 package com.borayildirim.foodiehub.presentation.ui.components.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,32 +21,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.sharp.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.presentation.screens.HomeScreen
-import com.borayildirim.foodiehub.presentation.theme.FoodieHubTheme
-import com.borayildirim.foodiehub.presentation.theme.homeSubtitle
 import com.borayildirim.foodiehub.presentation.theme.robotoTxt
 import com.borayildirim.foodiehub.presentation.ui.components.home.FoodCardConstants.ASPECT_RATIO
 import com.borayildirim.foodiehub.presentation.ui.components.home.FoodCardConstants.CARD_HEIGHT
@@ -129,9 +120,7 @@ fun HomeFoodsGrid(
                         )
                     }
 
-
                     Spacer(modifier = Modifier.weight(1f))
-
 
                     food.rating?.let {
                         Row(
@@ -169,92 +158,5 @@ fun HomeFoodsGrid(
                 }
             }
         }
-    }
-}
-
-val mockFood = listOf(
-    Food(
-        id = 1,
-        name = "Hamburger",
-        description = R.string.hamburger_description,
-        price = 299.99,
-        imageResource = R.drawable.hamburger,
-        rating = 4.5,
-        preparationTimeMinutes = 25,
-        categoryId = 2,
-        isFavorite = true
-    ),
-    Food(
-        id = 2,
-        name = "Cheeseburger",
-        description = R.string.cheeseburger_description,
-        price = 349.99,
-        imageResource = R.drawable.cheeseburger,
-        rating = 4.5,
-        preparationTimeMinutes = 25,
-        categoryId = 2,
-        isFavorite = false
-    ),
-    Food(
-        id = 3,
-        name = "Veggie Burger",
-        description = R.string.veggie_burger_description,
-        price = 279.99,
-        imageResource = R.drawable.veggie_burger,
-        rating = 4.0,
-        preparationTimeMinutes = 30,
-        categoryId = 2,
-        isFavorite = true
-    ),
-    Food(
-        id = 4,
-        name = "Chicken Burger",
-        description = R.string.chicken_burger_description,
-        price = 249.99,
-        imageResource = R.drawable.chicken_burger,
-        rating = 4.5,
-        preparationTimeMinutes = 23,
-        categoryId = 2,
-        isFavorite = false
-    ),
-    Food(
-        id = 5,
-        name = "Fried Chicken Burger",
-        description = R.string.fried_chicken_burger_description,
-        price = 349.99,
-        imageResource = R.drawable.fried_chicken_burger,
-        rating = 4.8,
-        preparationTimeMinutes = 26,
-        categoryId = 2,
-        isFavorite = false
-    ),
-    Food(
-        id = 6,
-        name = "Texas Burger",
-        description = R.string.texas_burger_description,
-        price = 399.99,
-        imageResource = R.drawable.texas_burger,
-        rating = 4.8,
-        preparationTimeMinutes = 26,
-        categoryId = 2,
-        isFavorite = false
-    )
-)
-
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, locale = "tr")
-@Composable
-fun HomeFoodsGridPreview() {
-    FoodieHubTheme {
-        Surface {
-            HomeFoodsGrid(mockFood, onFoodClick = { }, onFavoriteClick = { })
-        }
-    }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    FoodieHubTheme {
-        HomeScreen(navController = rememberNavController())
     }
 }

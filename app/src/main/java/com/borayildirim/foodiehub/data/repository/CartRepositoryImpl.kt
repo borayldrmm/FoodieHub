@@ -17,10 +17,10 @@ class CartRepositoryImpl @Inject constructor(): CartRepository {
 
     private fun updateCartMetrics(items: List<CartItem>) {
         _totalPrice.value = items.sumOf { it.totalPrice }
-        _cartItemCount.value = items.size
+        _cartItemCount.value = items.sumOf { it.quantity }
     }
 
-    override suspend fun addToCart(food: Food, quantity: Int) {
+    override fun addToCart(food: Food, quantity: Int) {
         val currentItems = _cartItems.value.toMutableList()
         val existingItem = currentItems.find { it.food.id == food.id }
 
@@ -31,7 +31,7 @@ class CartRepositoryImpl @Inject constructor(): CartRepository {
             _cartItems.value = currentItems
             updateCartMetrics(currentItems)
         } else {
-            val itemId = UUID.randomUUID()
+            val itemId = UUID.randomUUID().toString()
             currentItems.add(
                 CartItem(
                     food = food,
@@ -44,9 +44,9 @@ class CartRepositoryImpl @Inject constructor(): CartRepository {
         }
     }
 
-    override suspend fun removeFromCart(itemId: String) {
+    override fun removeFromCart(itemId: String) {
         val currentItems = _cartItems.value.toMutableList()
-        val itemToRemove = currentItems.find { it.itemId.toString() == itemId }
+        val itemToRemove = currentItems.find { it.itemId == itemId }
 
         if (itemToRemove != null) {
             currentItems.remove(itemToRemove)
@@ -55,9 +55,9 @@ class CartRepositoryImpl @Inject constructor(): CartRepository {
         }
     }
 
-    override suspend fun updateQuantity(itemId: String, newQuantity: Int) {
+    override fun updateQuantity(itemId: String, newQuantity: Int) {
         val currentItem = _cartItems.value.toMutableList()
-        val itemToUpdate = currentItem.find { it.itemId.toString() == itemId }
+        val itemToUpdate = currentItem.find { it.itemId == itemId }
 
         if (itemToUpdate != null) {
             currentItem.remove(itemToUpdate)
@@ -72,7 +72,7 @@ class CartRepositoryImpl @Inject constructor(): CartRepository {
         }
     }
 
-    override suspend fun clearCart() {
+    override fun clearCart() {
         _cartItems.value = emptyList()
         updateCartMetrics(emptyList())
     }

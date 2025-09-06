@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.borayildirim.foodiehub.presentation.screens.CustomizationScreen
 import com.borayildirim.foodiehub.presentation.screens.FoodDetailScreen
 import com.borayildirim.foodiehub.presentation.screens.HomeScreen
 import com.borayildirim.foodiehub.presentation.screens.SplashScreen
@@ -33,5 +34,12 @@ fun NavGraph(navController: NavHostController) {
             FoodDetailScreen(navController, foodId)
         }
 
+        composable(
+            route = Route.Customization.route,
+            arguments = listOf(navArgument("foodId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val foodId = backStackEntry.arguments?.getInt("foodId") ?: 0
+            CustomizationScreen(navController = navController, foodId = foodId)
+        }
     }
 }

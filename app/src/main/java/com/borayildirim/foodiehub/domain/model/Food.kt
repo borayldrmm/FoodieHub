@@ -9,5 +9,7 @@ data class Food(
     val rating: Double? = null,
     val preparationTimeMinutes: Int? = null,
     val categoryId: Int,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val availableToppings: List<Topping> = emptyList(),
+    val availableSideOptions: List<SideOption> = emptyList()
 )
