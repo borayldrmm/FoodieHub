@@ -33,9 +33,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.borayildirim.foodiehub.R
+import com.borayildirim.foodiehub.presentation.navigation.Route
 import com.borayildirim.foodiehub.presentation.ui.components.customization.PortionControl
 import com.borayildirim.foodiehub.presentation.ui.components.customization.SideOptionSection
 import com.borayildirim.foodiehub.presentation.ui.components.customization.SpicyLevelControl
@@ -178,7 +180,9 @@ fun CustomizationScreen(
                     onClick = {
                         // CardViewModel Inject
                         customizationViewModel.addToCart()
-                        navController.popBackStack()
+                        navController.navigate(Route.Home.route) {
+                            popUpTo(Route.Home.route) { inclusive = false }
+                        }
                     },
                     modifier = Modifier
                         .padding(start = 16.dp)
@@ -190,9 +194,10 @@ fun CustomizationScreen(
                     shape = RoundedCornerShape(20.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.order_now_txt),
+                        text = stringResource(R.string.add_cart_txt),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
                     )
                 }
             }

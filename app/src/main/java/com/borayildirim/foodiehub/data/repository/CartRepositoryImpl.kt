@@ -56,19 +56,18 @@ class CartRepositoryImpl @Inject constructor(): CartRepository {
     }
 
     override fun updateQuantity(itemId: String, newQuantity: Int) {
-        val currentItem = _cartItems.value.toMutableList()
-        val itemToUpdate = currentItem.find { it.itemId == itemId }
+        val currentItems = _cartItems.value.toMutableList()
+        val itemIndex = currentItems.indexOfFirst { it.itemId == itemId }
 
-        if (itemToUpdate != null) {
-            currentItem.remove(itemToUpdate)
-
+        if (itemIndex != -1) {
             if (newQuantity > 0) {
-                val updatedItem = itemToUpdate.copy(quantity = newQuantity)
-                currentItem.add(updatedItem)
+                currentItems[itemIndex] = currentItems[itemIndex].copy(quantity = newQuantity)
+            } else {
+                currentItems.removeAt(itemIndex)
             }
 
-            _cartItems.value = currentItem
-            updateCartMetrics(currentItem)
+            _cartItems.value = currentItems
+            updateCartMetrics(currentItems)
         }
     }
 
