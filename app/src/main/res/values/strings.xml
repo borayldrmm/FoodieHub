@@ -46,4 +46,10 @@
     <string name="customize_txt">Özelleştir</string>
     <string name="back_txt">Geri</string>
     <string name="add_txt">Ekle</string>
+    <string name="my_cart">SEPETİM</string>
+    <string name="empty_cart_title">Sepetiniz Boş</string>
+    <string name="empty_cart_subtitle">Lezzetli yemekleri keşfetmek için alışverişe başlayın!</string>
+    <string name="browse_food">Yemeklere Göz At</string>
+    <string name="remove_txt">Kaldır</string>
+    <string name="add_cart_txt">SEPETE EKLE</string>
 </resources>

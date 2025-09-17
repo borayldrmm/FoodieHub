@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
                 val mainScreenRoutes = listOf(
                     Route.Home.route,
                     Route.Favorites.route,
-                    Route.Cart.route,
                     Route.Profile.route
                 )
                 val navController = rememberNavController()
