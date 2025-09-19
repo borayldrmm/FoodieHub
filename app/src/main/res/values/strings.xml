@@ -5,20 +5,49 @@
     <string name="welcome_to_foodiehub">Welcome to FoodieHub</string>
     <string name="discover_delicious_meals">Discover delicious meals from your favorite restaurants</string>
     <string name="splash_loading">Yükleniyor...</string>
+
     <string name="hamburger_description">Sulu dana köftesi, marul ve domatesle klasik burger.</string>
+    <string name="hamburger_detailed_description">Sulu dana köftemizle hazırlanan bu klasik burger, taze marul yaprakları ve dilimlenmiş olgun domateslerle birleşerek mükemmel bir uyum sunar. Yumuşacık, hafifçe kızartılmış ekmeğin arasında servis edilen bu lezzet, her ısırıkta doyurucu ve unutulmaz bir tat deneyimi yaşatır.</string>
+
     <string name="cheeseburger_description">Dana köftesi ve erimiş cheddar peyniriyle burger.</string>
+    <string name="cheeseburger_detailed_description">Lezzetli dana köftesinin üzerine erimiş cheddar peyniri eklenerek hazırlanan bu klasik cheeseburger, taze marul ve dilimlenmiş domatesle buluşuyor. Yumuşacık, hafifçe kızartılmış ekmeğin arasında sunulan bu burger, hem doyurucu hem de damaklarda iz bırakacak bir lezzet deneyimi yaşatıyor.</string>
+
     <string name="veggie_burger_description">Sebze köftesi, marul ve domatesle hafif burger.</string>
+    <string name="veggie_burger_detailed_description">Taze sebzelerden hazırlanmış nefis sebze köftesiyle yapılan bu hafif burger, çıtır marul ve sulu domates dilimleriyle tamamlanıyor. Yumuşacık, hafifçe kızartılmış ekmek arasında sunulan bu seçenek, hem sağlıklı hem de lezzetli bir deneyim arayanlar için ideal.</string>
+
     <string name="chicken_burger_description">Tavuk köftesiyle hafif ve lezzetli burger.</string>
+    <string name="chicken_burger_detailed_description">Izgara edilmiş tavuk köftesiyle hazırlanan bu hafif ve lezzetli burger, sağlıklı beslenmek isteyenler için ideal bir seçimdir. Yumuşacık burger ekmeği arasında sunulan tavuk köftesi; taze marul, domates ve özel sos ile birleşerek dengeli bir tat profili sunar. Hem doyurucu hem de hafif bir alternatif arayanların favorisi olacaktır.</string>
+
     <string name="fried_chicken_burger_description">Kızarmış tavuk köftesiyle çıtır burger.</string>
+    <string name="fried_chicken_burger_detailed_description">Dışı çıtır çıtır, içi sulu kızarmış tavuk köftesiyle hazırlanan bu burger, hızlı atıştırmalık sevenler için ideal bir tercihtir. Özel sos, marul ve taze domates ile birleşerek hem doyurucu hem de keyifli bir lezzet sunar.</string>
+
     <string name="texas_burger_description">Dana, tavuk, bacon ve cheddarlı Texas burger.</string>
+    <string name="texas_burger_detailed_description">Dana eti, tavuk, çıtır bacon ve erimiş cheddar peyniriyle hazırlanan Texas burger, güçlü tatları sevenler için tasarlanmıştır. Kat kat protein ve yoğun lezzet, doyurucu bir burger deneyimi yaşatır.</string>
+
     <string name="pepperoni_pizza_description">Mozzarella ve pepperoni dilimleriyle pizza.</string>
+    <string name="pepperoni_pizza_detailed_description">İnce hamur üzerinde erimiş mozzarella peyniri ve bol pepperoni dilimleriyle hazırlanmış bu klasik pizza, özellikle baharatlı ve yoğun aromaları sevenlerin favorisi olacaktır.</string>
+
     <string name="vegetable_pizza_description">Taze sebzeler ve mozzarella ile pizza.</string>
+    <string name="vegetable_pizza_detailed_description">Renkli ve taze sebzelerle süslenmiş, erimiş mozzarella peyniriyle tamamlanan bu pizza, hafif ve sağlıklı bir seçenek arayanlar için ideal bir tercihtir.</string>
+
     <string name="margherita_pizza_description">Domates, mozzarella ve fesleğenli pizza.</string>
+    <string name="margherita_pizza_detailed_description">Domates sosu, taze mozzarella ve fesleğen yapraklarıyla hazırlanan Margherita pizza, İtalyan mutfağının en sade ama en lezzetli klasiklerinden biridir.</string>
+
     <string name="mixed_pizza_description">Etli ve sebzeli çeşitlerle karışık pizza.</string>
+    <string name="mixed_pizza_detailed_description">Et çeşitleriyle sebzelerin uyumunu bir araya getiren karışık pizza, hem zengin malzemeleri hem de dengeli lezzetiyle geniş kitlelerin tercih ettiği bir seçenektir.</string>
+
     <string name="mediterranean_chicken_salad_description">Tavuk, zeytin ve peynirli Akdeniz salatası.</string>
+    <string name="mediterranean_chicken_salad_detailed_description">Izgara tavuk parçaları, zeytin ve peynirle harmanlanmış bu Akdeniz salatası, taptaze yeşilliklerle birleşerek hafif ama besleyici bir öğün sunar.</string>
+
     <string name="avocado_chicken_salad_description">Tavuk ve avokadoyla sağlıklı salata.</string>
+    <string name="avocado_chicken_salad_detailed_description">Izgara tavuk ve olgun avokado dilimleriyle hazırlanan bu salata, hem sağlıklı hem de tok tutan bir alternatif olarak öne çıkar.</string>
+
     <string name="spicy_chicken_quinoa_salad_description">Kinoa ve tavukla acılı salata.</string>
+    <string name="spicy_chicken_quinoa_salad_detailed_description">Kinoa, baharatlı tavuk parçaları ve taze sebzelerle hazırlanan bu salata, acı severlere hafif ama enerji verici bir öğün seçeneği sunar.</string>
+
     <string name="egg_mediterranean_salad_description">Marul ve yumurtalı Akdeniz salatası.</string>
+    <string name="egg_mediterranean_salad_detailed_description">Marul, haşlanmış yumurta, zeytin ve diğer Akdeniz lezzetleriyle zenginleştirilmiş bu salata, dengeli ve sağlıklı beslenmek isteyenler için ideal bir tercihtir.</string>
+
     <string name="home_subtitle_text">Favori lezzetini seç ve sipariş ver!</string>
     <string name="profile_content_description">Profil</string>
     <string name="filter_content_description">Filtrele</string>

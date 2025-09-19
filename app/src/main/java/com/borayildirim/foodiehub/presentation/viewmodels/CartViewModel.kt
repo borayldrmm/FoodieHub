@@ -51,11 +51,23 @@ class CartViewModel @Inject constructor(
 
 
     fun addToCart(food: Food, quantity: Int = 1) {
-        cartRepository.addToCart(food,quantity)
+        viewModelScope.launch {
+            try {
+                cartRepository.addToCart(food,quantity)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     fun removeFromCart(itemId: String) {
-        cartRepository.removeFromCart(itemId)
+        viewModelScope.launch {
+            try {
+                cartRepository.removeFromCart(itemId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     fun updateQuantity(itemId: String, newQuantity: Int) {

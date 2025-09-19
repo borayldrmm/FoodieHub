@@ -4,6 +4,7 @@ data class Food(
     val id: Int,
     val name: String,
     val description: Int? = null,
+    val detailedDescription: Int? = null,
     val price: Double,
     val imageResource: Int,
     val rating: Double? = null,
