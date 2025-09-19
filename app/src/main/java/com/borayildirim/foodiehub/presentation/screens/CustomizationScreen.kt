@@ -52,7 +52,6 @@ fun CustomizationScreen(
     foodId: Int,
     customizationViewModel: CustomizationViewModel = hiltViewModel(),
     foodDetailViewModel: FoodDetailViewModel = hiltViewModel(),
-    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val customizationState by customizationViewModel.uiState.collectAsState()
     val foodDetailState by foodDetailViewModel.uiState.collectAsState()
@@ -74,17 +73,9 @@ fun CustomizationScreen(
             .verticalScroll(rememberScrollState())
     ) {
         customizationState.food?.let { food ->
-            // Header with back button and search
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.Default.ArrowBackIosNew, contentDescription = stringResource(R.string.customization_sc_back_icon))
-                }
-                IconButton(onClick = { /* Search */ }) {
-                    Icon(Icons.Default.Search, contentDescription = stringResource(R.string.customization_sc_search_icon))
-                }
+            // Header with back button
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(Icons.Default.ArrowBackIosNew, contentDescription = stringResource(R.string.customization_sc_back_icon))
             }
 
             Row(
