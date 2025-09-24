@@ -125,24 +125,16 @@ class HomeViewModel @Inject constructor(
 
 
     fun toggleFavorite(foodId: Int) {
-        val current = _uiState.value
-        val updatedAllFoods = current.allFoods.map { food ->
-            if (food.id == foodId) {
-                food.copy(isFavorite = !food.isFavorite)
-            } else {
-                food
+        viewModelScope.launch {
+            try {
+                // Update the favorite state in the Repository
+                foodRepository.toggleFavorite(foodId)
+
+                // Get fresh data (with updated favorite situation in the Repository)
+                loadInitialData()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-
-        val updatedFoods = filterFoods(
-            allFoods = updatedAllFoods,
-            selectedCategoryId = current.selectedCategoryId,
-            searchQuery = current.searchQuery
-        )
-
-        _uiState.value = current.copy(
-            allFoods = updatedAllFoods,
-            foods = updatedFoods
-        )
     }
 }

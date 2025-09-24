@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.borayildirim.foodiehub.presentation.screens.CartScreen
 import com.borayildirim.foodiehub.presentation.screens.CustomizationScreen
+import com.borayildirim.foodiehub.presentation.screens.FavoritesScreen
 import com.borayildirim.foodiehub.presentation.screens.FoodDetailScreen
 import com.borayildirim.foodiehub.presentation.screens.HomeScreen
 import com.borayildirim.foodiehub.presentation.screens.SplashScreen
@@ -23,9 +24,17 @@ fun NavGraph(navController: NavHostController) {
         composable(Route.Splash.route) { SplashScreen(navController) }
         composable(Route.Add.route) { Text("Add Screen") }
         composable(Route.Home.route) { HomeScreen(navController) }
-        composable(Route.Cart.route) { Text("Cart Screen") }
         composable(Route.Profile.route) { Text("Profile Screen") }
-        composable(Route.Favorites.route) { Text("Favorites Screen") }
+
+        // FavoritesScreen
+        composable(Route.Favorites.route) {
+            FavoritesScreen(navController)
+        }
+
+        // Cart route
+        composable(Route.Cart.route) {
+            CartScreen(navController)
+        }
 
         composable(
             route = Route.FoodDetail.route,
@@ -41,10 +50,6 @@ fun NavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val foodId = backStackEntry.arguments?.getInt("foodId") ?: 0
             CustomizationScreen(navController = navController, foodId = foodId)
-        }
-
-        composable(Route.Cart.route) {
-            CartScreen(navController)
         }
     }
 }

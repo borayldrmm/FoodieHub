@@ -81,4 +81,6 @@
     <string name="browse_food">Yemeklere Göz At</string>
     <string name="remove_txt">Kaldır</string>
     <string name="add_cart_txt">SEPETE EKLE</string>
+    <string name="favorites_txt">Favoriler</string>
+    <string name="theresa_nothing_favorite_food_yet">Henüz favori ürününüz yok..</string>
 </resources>

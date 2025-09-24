@@ -9,11 +9,19 @@ import javax.inject.Singleton
 
 @Singleton
 class FoodRepositoryImpl @Inject constructor(): FoodRepository {
+
+    // In-memory favorite storage
+    private val favoriteIds = mutableSetOf<Int>()
     override suspend fun getFoods(): List<Food> {
-        return MockFoodData.getBurgers() +
+        val allFoods = MockFoodData.getBurgers() +
                 MockFoodData.getPizza() +
                 MockFoodData.getSalad() +
                 MockFoodData.getDrinks()
+
+        // Update favorite status based on favoriteIds
+        return allFoods.map { food ->
+            food.copy(isFavorite = favoriteIds.contains(food.id))
+        }
     }
 
     override suspend fun getFood(foodId: Int): Food? {
@@ -30,13 +38,23 @@ class FoodRepositoryImpl @Inject constructor(): FoodRepository {
         )
     }
 
+    // SET operation - Remove & Add
     override suspend fun toggleFavorite(foodId: Int) {
-        TODO("Not yet implemented")
+        if (favoriteIds.contains(foodId)) {
+            favoriteIds.remove(foodId)
+        } else {
+            favoriteIds.add(foodId)
+        }
     }
 
     override suspend fun searchFoods(query: String): List<Food> {
         val foods = getFoods()
         return foods.filter { it.name.contains(query, ignoreCase = true) }
+    }
+
+    // READ operation - Get list
+    override suspend fun getFavoriteFoods(): List<Food> {
+        return getFoods().filter { it.isFavorite }
     }
 
 

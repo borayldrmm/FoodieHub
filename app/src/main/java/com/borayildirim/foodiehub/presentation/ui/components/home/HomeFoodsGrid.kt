@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -145,8 +146,8 @@ fun HomeFoodsGrid(
                             }
 
                             Icon(
-                                imageVector = if (food.isFavorite) Icons.Filled.Favorite else Icons.Outlined.Favorite,
-                                tint = if (food.isFavorite) Color.Red else Color.DarkGray,
+                                imageVector = if (food.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                tint = if (food.isFavorite) MaterialTheme.colorScheme.onPrimary else Color.DarkGray,
                                 contentDescription = stringResource(R.string.home_food_grid_add_favorite),
                                 modifier = Modifier
                                     .clickable {
