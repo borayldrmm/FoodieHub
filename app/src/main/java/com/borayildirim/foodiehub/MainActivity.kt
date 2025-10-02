@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
                 val mainScreenRoutes = listOf(
                     Route.Home.route,
                     Route.Favorites.route,
-                    Route.Profile.route
                 )
                 val navController = rememberNavController()
                 val currentDestination = navController.currentBackStackEntryAsState()
@@ -90,6 +89,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Preview() {
     FoodieHubTheme {
-        // Preview content here
+
     }
 }

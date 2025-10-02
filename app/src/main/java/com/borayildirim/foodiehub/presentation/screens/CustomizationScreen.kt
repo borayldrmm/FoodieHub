@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -42,7 +41,6 @@ import com.borayildirim.foodiehub.presentation.ui.components.customization.Porti
 import com.borayildirim.foodiehub.presentation.ui.components.customization.SideOptionSection
 import com.borayildirim.foodiehub.presentation.ui.components.customization.SpicyLevelControl
 import com.borayildirim.foodiehub.presentation.ui.components.customization.ToppingSection
-import com.borayildirim.foodiehub.presentation.viewmodels.CartViewModel
 import com.borayildirim.foodiehub.presentation.viewmodels.CustomizationViewModel
 import com.borayildirim.foodiehub.presentation.viewmodels.FoodDetailViewModel
 
