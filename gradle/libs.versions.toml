@@ -1,5 +1,7 @@
 [versions]
 agp = "8.13.0"
+coilCompose = "2.7.0"
+iconsLucideAndroid = "1.1.0"
 kotlin = "2.1.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -23,6 +25,8 @@ uiTextGoogleFonts = "1.8.3"
 # Existing
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+icons-lucide-android = { module = "com.composables:icons-lucide-android", version.ref = "iconsLucideAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
