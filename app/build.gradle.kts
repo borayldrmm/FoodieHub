@@ -63,6 +63,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -90,5 +91,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.icons.lucide.android)
     implementation(libs.coil.compose)
-    implementation("com.github.yalantis:ucrop:2.2.8")
+    implementation(libs.ucrop)
+    implementation(libs.androidx.datastore.preferences)
+
 }

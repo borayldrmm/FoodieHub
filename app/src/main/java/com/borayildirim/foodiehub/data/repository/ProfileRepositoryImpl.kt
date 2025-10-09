@@ -1,53 +1,70 @@
 package com.borayildirim.foodiehub.data.repository
 
-import androidx.room.Room
+import com.borayildirim.foodiehub.data.local.dao.UserDao
+import com.borayildirim.foodiehub.data.local.mapper.toDomain
+import com.borayildirim.foodiehub.data.local.mapper.toEntity
+import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
 import com.borayildirim.foodiehub.domain.model.User
 import com.borayildirim.foodiehub.domain.repository.ProfileRepository
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProfileRepositoryImpl @Inject constructor(): ProfileRepository {
+class ProfileRepositoryImpl @Inject constructor(
+    private val userDao: UserDao,
+    private val preferencesManager: UserPreferencesManager
+): ProfileRepository {
 
-    // Temporary static user - it will change with Room
-    private val currentUser = User(
-        userId = "temp_user",
-        name =  "Sophia Patel",
-        email =  "sophiapatel@gmail.com",
-        profilePicture = null,
-        isLogin = true,
-        deliveryAdress = "123 Main St Apartment 4A, New York, NY",
-        phoneNumber = "+1 555-0123"
-    )
-
-    override suspend fun getCurrentUser(): User? = currentUser
-
-    override suspend fun updateUserProfile(user: User): Result<Unit> {
-        // TODO: Room Database Implementation
-        // Temporary: Just return success for now
-        return Result.success(Unit)
+    override suspend fun getCurrentUser(): User? {
+        val userId = preferencesManager.getUserId().firstOrNull() ?: return null
+        val userEntity = userDao.getUserById(userId)
+        return userEntity?.toDomain()
     }
 
-    override suspend fun updateDeliveryAddress(address: String): Result<Unit> {
-        // TODO: Room Database Implementation
-        // Temporary: Just return success for now
-        return Result.success(Unit)
+    override suspend fun updateUserProfile(user: User): Result<Unit> {
+        return try {
+            userDao.updateUser(user.toEntity())
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun updateDeliveryAddress(
+        address: String,
+    ): Result<Unit> {
+        return try {
+            val user = getCurrentUser() ?: return Result.failure(Exception("Kullanıcı bulunamadı!"))
+            val updateUser = user.copy(deliveryAddress = address)
+            userDao.updateUser(updateUser.toEntity())
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun changePassword(
+        currentPassword: String,
+        newPassword: String
+    ) {
+        val user = getCurrentUser() ?: throw Exception("Kullanıcı bulunamadı!")
+
+        if (user.password != currentPassword) {
+            throw Exception("Mevcut şifre yanlış!")
+        }
+
+        val updateUser = user.copy(password = newPassword)
+        userDao.updateUser(updateUser.toEntity())
     }
 
     override suspend fun logout(): Result<Unit> {
-        // TODO: Authentication logic
-        // Temporary: Just return success for now
-        return Result.success(Unit)
-    }
-
-    override suspend fun changePassword(currentPassword: String, newPassword: String) {
-        // Mock success for now
-        delay(500) // Simulate network delay
-        // Mock validation - for test
-        if (currentPassword != "123456") {
-            throw Exception("Mevcut şifre yanlış")
+        return try {
+            preferencesManager.clearUserId()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-        // Success --> Do nothing
     }
 }

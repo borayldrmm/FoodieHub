@@ -1,6 +1,8 @@
 [versions]
 agp = "8.13.0"
+appcompat = "1.7.1"
 coilCompose = "2.7.0"
+datastorePreferences = "1.1.7"
 iconsLucideAndroid = "1.1.0"
 kotlin = "2.1.20"
 coreKtx = "1.13.1"
@@ -19,11 +21,14 @@ navigationCompose = "2.9.3"
 room = "2.7.2"
 coroutines = "1.10.2"
 ksp = "2.1.20-1.0.31"
+ucrop = "2.2.11"
 uiTextGoogleFonts = "1.8.3"
 
 [libraries]
 # Existing
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 icons-lucide-android = { module = "com.composables:icons-lucide-android", version.ref = "iconsLucideAndroid" }
@@ -50,6 +55,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

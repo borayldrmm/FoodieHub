@@ -2,10 +2,10 @@ package com.borayildirim.foodiehub.domain.model
 
 data class User(
     val userId : String,
-    val name : String,
+    val fullName : String,
     val email : String,
     val profilePicture : String? = null,
-    val isLogin : Boolean,
-    val deliveryAdress: String? = null,
-    val phoneNumber: String? = null
+    val deliveryAddress: String? = null,
+    val phoneNumber: String,
+    val password: String
 )
