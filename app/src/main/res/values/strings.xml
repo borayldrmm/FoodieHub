@@ -112,4 +112,5 @@
     <string name="pw_mustbe_atleast_6_characters">Şifre en az 6 karakter olmalı</string>
     <string name="wrong_current_pw">Mevcut şifre yanlış</string>
     <string name="password_changed_successfully">Parola başarılı bir şekilde değiştirildi..</string>
+    <string name="user_not_found">Kullanıcı Bulunamadı</string>
 </resources>

@@ -119,7 +119,7 @@ fun ProfileScreen(
                 onLogoutClick = { profileViewModel.logout() },
                 onNameChange = { name ->
                     uiState.editableUser?.let { user ->
-                        profileViewModel.updateEditableUser(user.copy(name = name))
+                        profileViewModel.updateEditableUser(user.copy(fullName = name))
                     }
                 },
                 onEmailChange = { email ->
@@ -129,7 +129,7 @@ fun ProfileScreen(
                 },
                 onAddressChange = { address ->
                     uiState.editableUser?.let { user ->
-                        profileViewModel.updateEditableUser(user.copy(deliveryAdress = address))
+                        profileViewModel.updateEditableUser(user.copy(deliveryAddress = address))
                     }
                 },
                 onPasswordChange = { /* Handle Password */ },
@@ -300,7 +300,7 @@ private fun ProfileContent(
                 // Form Fields
                 ProfileFormField(
                     label = stringResource(R.string.name_txt),
-                    value = if (isEditing) editableUser?.name ?: "" else user.name,
+                    value = if (isEditing) editableUser?.fullName ?: "" else user.fullName,
                     onValueChange = onNameChange,
                     enabled = isEditing
                 )
@@ -314,7 +314,7 @@ private fun ProfileContent(
 
                 ProfileFormField(
                     label = stringResource(R.string.delivery_adress),
-                    value = if (isEditing) editableUser?.deliveryAdress ?: "" else user.deliveryAdress ?: "",
+                    value = if (isEditing) editableUser?.deliveryAddress ?: "" else user.deliveryAddress ?: "",
                     onValueChange = onAddressChange,
                     enabled = isEditing
 
