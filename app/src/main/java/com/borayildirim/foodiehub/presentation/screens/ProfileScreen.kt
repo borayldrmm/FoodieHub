@@ -81,12 +81,14 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val uiState by profileViewModel.uiState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        profileViewModel.loadUserProfile()
-    }
+    val isLoggedIn by profileViewModel.isLoggedIn.collectAsState()
 
     when {
+        !isLoggedIn -> {
+            // Guest screen - not logged in
+            ProfileGuestScreen(navController)
+        }
+
         uiState.isLoading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),

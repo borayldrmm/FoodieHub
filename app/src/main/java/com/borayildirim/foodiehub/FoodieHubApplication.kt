@@ -23,9 +23,11 @@ class FoodieHubApplication : Application() {
         CoroutineScope(Dispatchers.IO).launch {
             insertTestUserIfNotExists()
 
+            /*
             // TEST: Save userId in DataStore
             val preferencesManager = UserPreferencesManager(this@FoodieHubApplication)
             preferencesManager.saveUserId("temp_user_123")
+             */
         }
     }
 

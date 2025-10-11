@@ -12,6 +12,7 @@ import com.borayildirim.foodiehub.presentation.screens.CustomizationScreen
 import com.borayildirim.foodiehub.presentation.screens.FavoritesScreen
 import com.borayildirim.foodiehub.presentation.screens.FoodDetailScreen
 import com.borayildirim.foodiehub.presentation.screens.HomeScreen
+import com.borayildirim.foodiehub.presentation.screens.LoginScreen
 import com.borayildirim.foodiehub.presentation.screens.ProfileScreen
 import com.borayildirim.foodiehub.presentation.screens.SplashScreen
 
@@ -23,7 +24,13 @@ fun NavGraph(navController: NavHostController) {
         startDestination = Route.Splash.route
     ) {
         composable(Route.Splash.route) { SplashScreen(navController) }
+
+        composable(Route.Login.route) { LoginScreen(navController) }
+
+        composable(Route.Register.route) { Text("Register Screen") }
+
         composable(Route.Add.route) { Text("Add Screen") }
+
         composable(Route.Home.route) { HomeScreen(navController) }
 
         // FavoritesScreen
