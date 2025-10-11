@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.domain.model.User
 import com.borayildirim.foodiehub.domain.repository.ProfileRepository
+import com.borayildirim.foodiehub.domain.usecase.CheckUserLoginStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,12 +24,19 @@ data class ProfileUiState(
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val checkUserLoginStatusUseCase: CheckUserLoginStatusUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _isLoggedIn = MutableStateFlow(false)
+    val isLoggedIn = _isLoggedIn.asStateFlow()
+
+    init {
+        checkLoginStatus()
+    }
     fun loadUserProfile() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
@@ -147,6 +155,15 @@ class ProfileViewModel @Inject constructor(
                     } catch (e: Exception) {
                         onError(e.message ?: context.getString(R.string.wrong_current_pw))
                     }
+            }
+        }
+    }
+
+    private fun checkLoginStatus() {
+        viewModelScope.launch {
+            _isLoggedIn.value = checkUserLoginStatusUseCase.checkLoginStatus()
+            if (_isLoggedIn.value) {
+                loadUserProfile()
             }
         }
     }

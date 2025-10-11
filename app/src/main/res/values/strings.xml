@@ -113,4 +113,16 @@
     <string name="wrong_current_pw">Mevcut şifre yanlış</string>
     <string name="password_changed_successfully">Parola başarılı bir şekilde değiştirildi..</string>
     <string name="user_not_found">Kullanıcı Bulunamadı</string>
+
+    <!-- Authentication Messages - YENİ -->
+    <string name="wrong_password">Şifre yanlış</string>
+    <string name="email_already_exists">Bu e-posta adresi zaten kayıtlı</string>
+    <string name="login">Giriş Yap</string>
+    <string name="register">Kayıt Ol</string>
+    <string name="full_name">Ad Soyad</string>
+    <string name="invalid_email">Geçersiz e-posta adresi</string>
+    <string name="already_have_account">Zaten hesabınız var mı?</string>
+    <string name="dont_have_account">Hesabınız yok mu?</string>
+    <string name="unknown_error">Bilinmeyen hata!</string>
+    <string name="join_foodiehub">Birbirinden Lezzetli yemekleri sipariş etmek için hemen üye olun!</string>
 </resources>
