@@ -64,6 +64,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.domain.model.User
 import com.borayildirim.foodiehub.presentation.ui.components.profile.ChangePasswordBottomSheet
+import com.borayildirim.foodiehub.presentation.ui.components.profile.LogoutConfirmationDialog
 import com.borayildirim.foodiehub.presentation.ui.components.profile.PasswordField
 import com.borayildirim.foodiehub.presentation.ui.components.profile.ProfileFormField
 import com.borayildirim.foodiehub.presentation.ui.components.profile.ProfileNavigationCard
@@ -177,6 +178,9 @@ private fun ProfileContent(
 
     // BottomSheet state
     var showPasswordBottomSheet by remember { mutableStateOf(false) }
+
+    // Logout dialog state
+    var showLogoutDialog by remember { mutableStateOf(false) }
 
 
     val imagePickerHelper = rememberImagePickerHelper(
@@ -402,7 +406,11 @@ private fun ProfileContent(
 
                     // Logout & Cancel button
                     OutlinedButton(
-                        onClick = if (isEditing) onCancelClick else onLogoutClick,
+                        onClick = if (isEditing) {
+                            onCancelClick
+                        } else {
+                            { showLogoutDialog = true }
+                        },
                         shape = RoundedCornerShape(16.dp),
                         border = BorderStroke(width = 2.dp, color = Color.Red),
                         modifier = Modifier
@@ -458,6 +466,18 @@ private fun ProfileContent(
                 )
             }
         }
+
+        // Logout Confirmation Dialog
+        if (showLogoutDialog) {
+            LogoutConfirmationDialog(
+                onDismiss = { showLogoutDialog = false },
+                onConfirm = {
+                    showLogoutDialog = false
+                    onLogoutClick()
+                }
+            )
+        }
+
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)

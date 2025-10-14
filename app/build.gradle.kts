@@ -94,4 +94,7 @@ dependencies {
     implementation(libs.ucrop)
     implementation(libs.androidx.datastore.preferences)
 
+    // Transition libs for UCrop
+    implementation(libs.androidx.transition)
+
 }

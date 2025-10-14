@@ -97,7 +97,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 profileRepository.logout()
-                // Navigation to logic screen - implement later
+                _isLoggedIn.value = false
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(error = e.message)
             }
