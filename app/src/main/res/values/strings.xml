@@ -125,4 +125,10 @@
     <string name="dont_have_account">Hesabınız yok mu?</string>
     <string name="unknown_error">Bilinmeyen hata!</string>
     <string name="join_foodiehub">Birbirinden Lezzetli yemekleri sipariş etmek için hemen üye olun!</string>
+    <string name="phone_mustbe_10">Telefon numarası 10 haneli olmalıdır.</string>
+
+    <!-- Logout Dialog -->
+    <string name="logout_confirmation_title">Çıkış Yap</string>
+    <string name="logout_confirmation_message">Çıkış yapmak istediğinize emin misiniz?</string>
+    <string name="confirm_logout">Çıkış Yap</string>
 </resources>

@@ -21,6 +21,7 @@ navigationCompose = "2.9.3"
 room = "2.7.2"
 coroutines = "1.10.2"
 ksp = "2.1.20-1.0.31"
+transition = "1.6.0"
 ucrop = "2.2.11"
 uiTextGoogleFonts = "1.8.3"
 
@@ -30,6 +31,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-transition = { module = "androidx.transition:transition", version.ref = "transition" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 icons-lucide-android = { module = "com.composables:icons-lucide-android", version.ref = "iconsLucideAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
