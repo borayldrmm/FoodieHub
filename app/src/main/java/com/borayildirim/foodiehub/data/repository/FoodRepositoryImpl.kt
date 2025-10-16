@@ -56,6 +56,4 @@ class FoodRepositoryImpl @Inject constructor(): FoodRepository {
     override suspend fun getFavoriteFoods(): List<Food> {
         return getFoods().filter { it.isFavorite }
     }
-
-
 }
