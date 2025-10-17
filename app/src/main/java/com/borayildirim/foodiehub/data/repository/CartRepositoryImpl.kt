@@ -1,88 +1,65 @@
 package com.borayildirim.foodiehub.data.repository
 
+import com.borayildirim.foodiehub.data.local.dao.CartDao
+import com.borayildirim.foodiehub.data.local.dao.FoodDao
+import com.borayildirim.foodiehub.data.local.mapper.toDomain
+import com.borayildirim.foodiehub.data.local.mapper.toEntity
 import com.borayildirim.foodiehub.domain.model.CartItem
-import com.borayildirim.foodiehub.domain.model.Food
+import com.borayildirim.foodiehub.domain.model.MockFoodData
 import com.borayildirim.foodiehub.domain.repository.CartRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import java.util.UUID
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CartRepositoryImpl @Inject constructor(): CartRepository {
-    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
-    private val _totalPrice = MutableStateFlow(0.0)
-    private val _cartItemCount = MutableStateFlow(0)
+class CartRepositoryImpl @Inject constructor(
+    private val cartDao: CartDao,
+    private val foodDao: FoodDao
+) : CartRepository {
 
-    private fun updateCartMetrics(items: List<CartItem>) {
-        _totalPrice.value = items.sumOf { it.totalPrice }
-        _cartItemCount.value = items.sumOf { it.quantity }
-    }
-
-    override fun addToCart(food: Food, quantity: Int) {
-        val currentItems = _cartItems.value.toMutableList()
-        val existingItem = currentItems.find { it.food.id == food.id }
-
-        if (existingItem != null) {
-            currentItems.remove(existingItem)
-            val updatedItem = existingItem.copy(quantity = existingItem.quantity + quantity)
-            currentItems.add(updatedItem)
-            _cartItems.value = currentItems
-            updateCartMetrics(currentItems)
-        } else {
-            val itemId = UUID.randomUUID().toString()
-            currentItems.add(
-                CartItem(
-                    food = food,
-                    quantity = quantity,
-                    itemId = itemId
-                )
-            )
-            _cartItems.value = currentItems
-            updateCartMetrics(currentItems)
-        }
-    }
-
-    override fun removeFromCart(itemId: String) {
-        val currentItems = _cartItems.value.toMutableList()
-        val itemToRemove = currentItems.find { it.itemId == itemId }
-
-        if (itemToRemove != null) {
-            currentItems.remove(itemToRemove)
-            _cartItems.value = currentItems
-            updateCartMetrics(currentItems)
-        }
-    }
-
-    override fun updateQuantity(itemId: String, newQuantity: Int) {
-        val currentItems = _cartItems.value.toMutableList()
-        val itemIndex = currentItems.indexOfFirst { it.itemId == itemId }
-
-        if (itemIndex != -1) {
-            if (newQuantity > 0) {
-                currentItems[itemIndex] = currentItems[itemIndex].copy(quantity = newQuantity)
-            } else {
-                currentItems.removeAt(itemIndex)
+    override fun getCartItems(): Flow<List<CartItem>> {
+        return combine(
+            cartDao.getAllCartItems(),
+            foodDao.getAllFoods()
+        ) { cartEntities, foodEntities ->
+            cartEntities.mapNotNull { cartEntity ->
+                val foodEntity = foodEntities.find { it.id == cartEntity.foodId }
+                foodEntity?.let {
+                    val mockFood = MockFoodData.getAllFoods().find { it.id == foodEntity.id }
+                    val food = foodEntity.toDomain(
+                        description = mockFood?.description,
+                        detailedDescription = mockFood?.detailedDescription,
+                        isFavorite = false,
+                        availableToppings = mockFood?.availableToppings ?: emptyList(),
+                        availableSideOptions = mockFood?.availableSideOptions ?: emptyList()
+                    )
+                    cartEntity.toDomain(food)
+                }
             }
-
-            _cartItems.value = currentItems
-            updateCartMetrics(currentItems)
         }
     }
 
-    override fun clearCart() {
-        _cartItems.value = emptyList()
-        updateCartMetrics(emptyList())
+    override suspend fun addToCart(cartItem: CartItem) {
+        cartDao.insertCartItem(cartItem.toEntity())
     }
 
-    override fun getCartItems(): StateFlow<List<CartItem>> = _cartItems
-
-    override fun getTotalPrice(): StateFlow<Double> {
-        return _totalPrice
+    override suspend fun removeFromCart(itemId: String) {
+        val cartItem = cartDao.getCartItemById(itemId).first()
+        cartItem?.let {
+            cartDao.deleteCartItem(it)
+        }
     }
 
-    override fun getCartItemCount(): StateFlow<Int> {
-        return _cartItemCount
+    override suspend fun updateQuantity(itemId: String, quantity: Int) {
+        val cartItem = cartDao.getCartItemById(itemId).first()
+        cartItem?.let {
+            cartDao.updateCartItem(it.copy(quantity = quantity))
+        }
+    }
+
+    override suspend fun clearCart() {
+        cartDao.clearCart()
     }
 }
