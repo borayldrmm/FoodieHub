@@ -414,4 +414,8 @@ object MockFoodData {
             ),
         )
     }
+
+    fun getAllFoods(): List<Food> {
+        return getBurgers() + getPizza() + getSalad() + getDrinks()
+    }
 }

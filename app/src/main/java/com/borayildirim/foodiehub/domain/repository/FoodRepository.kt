@@ -2,17 +2,17 @@ package com.borayildirim.foodiehub.domain.repository
 
 import com.borayildirim.foodiehub.domain.model.Category
 import com.borayildirim.foodiehub.domain.model.Food
+import kotlinx.coroutines.flow.Flow
 
 interface FoodRepository {
-    suspend fun getFoods(): List<Food>
+    fun getFoods(): Flow<List<Food>>
 
-    suspend fun getFood(foodId: Int): Food?
+    fun getFood(foodId: Int): Flow<Food?>
 
-    suspend fun getCategories(): List<Category>
+    fun getCategories(): Flow<List<Category>>
+
+    fun getFavoriteFoods(): Flow<List<Food>>
+    fun searchFoods(query: String): Flow<List<Food>>
 
     suspend fun toggleFavorite(foodId: Int)
-
-    suspend fun searchFoods(query: String): List<Food>
-
-    suspend fun getFavoriteFoods(): List<Food>
 }
