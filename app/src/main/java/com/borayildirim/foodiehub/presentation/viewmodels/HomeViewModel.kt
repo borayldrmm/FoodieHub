@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.domain.model.Category
 import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.domain.repository.FoodRepository
+import com.borayildirim.foodiehub.domain.usecase.GetAllFoodsUseCase
+import com.borayildirim.foodiehub.domain.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,8 @@ data class HomeUiState (
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val foodRepository: FoodRepository
+    private val getAllFoodsUseCase: GetAllFoodsUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -35,27 +37,28 @@ class HomeViewModel @Inject constructor(
 
     private val TURKISH_LOCALE: Locale = Locale.forLanguageTag("tr-TR")
 
-    fun loadInitialData() {
+    init {
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
         viewModelScope.launch {
             try {
-                _uiState.value = _uiState.value.copy(isLoading = true)
+                getAllFoodsUseCase().collect { foodsFromRepo ->
+                    val current = _uiState.value
+                    val derivedFoods = filterFoods(
+                        allFoods = foodsFromRepo,
+                        selectedCategoryId = current.selectedCategoryId,
+                        searchQuery = current.searchQuery
+                    )
 
-                val foodsFromRepo = foodRepository.getFoods()
-                val categoriesFromRepo = foodRepository.getCategories()
-
-                val current = _uiState.value
-                val derivedFoods = filterFoods(
-                    allFoods = foodsFromRepo,
-                    selectedCategoryId = current.selectedCategoryId,
-                    searchQuery = current.searchQuery
-                )
-
-                _uiState.value = current.copy(
-                    allFoods = foodsFromRepo,
-                    foods = derivedFoods,
-                    categories = categoriesFromRepo,
-                    isLoading = false
-                )
+                    _uiState.value = current.copy(
+                        allFoods = foodsFromRepo,
+                        foods = derivedFoods,
+                        categories = getDefaultCategories(),
+                        isLoading = false
+                    )
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 _uiState.value = _uiState.value.copy(isLoading = false)
@@ -63,6 +66,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getDefaultCategories(): List<Category> {
+        return listOf(
+            Category(id = 1, name = "All", isSelected = true),
+            Category(id = 2, name = "Burgers", isSelected = false),
+            Category(id = 3, name = "Pizzas", isSelected = false),
+            Category(id = 4, name = "Salads", isSelected = false),
+            Category(id = 5, name = "Drinks", isSelected = false)
+        )
+    }
 
     fun searchFoods(query: String) {
         val current = _uiState.value
@@ -71,12 +83,11 @@ class HomeViewModel @Inject constructor(
             selectedCategoryId = current.selectedCategoryId,
             searchQuery = query
         )
-        _uiState.value = current.copy(
+        _uiState.value = _uiState.value.copy(
             searchQuery = query,
             foods = newFoods
         )
     }
-
 
     private fun filterFoods(
         allFoods: List<Food>,
@@ -99,7 +110,7 @@ class HomeViewModel @Inject constructor(
     fun selectCategory(categoryId: Int) {
         val current = _uiState.value
 
-        val updatedCategories = _uiState.value.categories.map {category ->
+        val updatedCategories = current.categories.map {category ->
             category.copy(isSelected = category.id == categoryId)
         }
 
@@ -127,11 +138,7 @@ class HomeViewModel @Inject constructor(
     fun toggleFavorite(foodId: Int) {
         viewModelScope.launch {
             try {
-                // Update the favorite state in the Repository
-                foodRepository.toggleFavorite(foodId)
-
-                // Get fresh data (with updated favorite situation in the Repository)
-                loadInitialData()
+                toggleFavoriteUseCase(foodId)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

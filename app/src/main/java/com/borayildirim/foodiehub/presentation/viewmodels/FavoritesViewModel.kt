@@ -3,7 +3,8 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.domain.repository.FoodRepository
+import com.borayildirim.foodiehub.domain.usecase.GetFavoriteFoodsUseCase
+import com.borayildirim.foodiehub.domain.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,23 +19,27 @@ data class FavoritesUiState(
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val foodRepository: FoodRepository
+    private val getFavoriteFoodsUseCase: GetFavoriteFoodsUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(FavoritesUiState())
     val uiState = _uiState.asStateFlow()
 
+    init {
+        loadFavorites()
+    }
+
     fun loadFavorites() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-
             try {
-                val favorites = foodRepository.getFavoriteFoods()
-                _uiState.value = _uiState.value.copy(
-                    favoriteFoods = favorites,
-                    isLoading = false,
-                    error = null
-                )
+                getFavoriteFoodsUseCase().collect { favorites ->
+                    _uiState.value = _uiState.value.copy(
+                        favoriteFoods = favorites,
+                        isLoading = false,
+                        error = null
+                    )
+                }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     error = e.message,
@@ -47,8 +52,7 @@ class FavoritesViewModel @Inject constructor(
     fun toggleFavorite(foodId: Int) {
         viewModelScope.launch {
             try {
-                foodRepository.toggleFavorite(foodId)
-                loadFavorites() // Refresh favorites list
+                toggleFavoriteUseCase(foodId)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(error = e.message)
             }

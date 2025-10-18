@@ -1,13 +1,17 @@
 package com.borayildirim.foodiehub.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.model.Food
 import com.borayildirim.foodiehub.domain.model.SideOption
 import com.borayildirim.foodiehub.domain.model.Topping
-import com.borayildirim.foodiehub.domain.repository.CartRepository
+import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 data class CustomizationUiState(
@@ -21,11 +25,11 @@ data class CustomizationUiState(
 
 @HiltViewModel
 class CustomizationViewModel @Inject constructor(
-    private val cartRepository: CartRepository
+    private val addToCartUseCase: AddToCartUseCase
 ): ViewModel() {
+
     private val _uiState = MutableStateFlow(CustomizationUiState())
     val uiState = _uiState.asStateFlow()
-
 
     private fun calculateTotalPrice(
         food: Food,
@@ -113,8 +117,18 @@ class CustomizationViewModel @Inject constructor(
     fun addToCart() {
         val state = _uiState.value
         state.food?.let {food ->
-            // Add Customized Food to Card logic
-            cartRepository.addToCart(food, state.portion)
+            viewModelScope.launch {
+                try {
+                    val cartItem = CartItem(
+                        food = food,
+                        quantity = state.portion,
+                        itemId = UUID.randomUUID().toString()
+                    )
+                    addToCartUseCase(cartItem)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 }
