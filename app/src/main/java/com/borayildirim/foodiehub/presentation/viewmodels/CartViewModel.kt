@@ -3,12 +3,13 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.domain.model.CartItem
-import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.domain.repository.CartRepository
+import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.ClearCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.GetCartItemsUseCase
+import com.borayildirim.foodiehub.domain.usecase.RemoveFromCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,10 @@ data class CartUiState(
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartRepository
+    private val getCartItemsUseCase: GetCartItemsUseCase,
+    private val addToCartUseCase: AddToCartUseCase,
+    private val removeFromCartUseCase: RemoveFromCartUseCase,
+    private val clearCartUseCase: ClearCartUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(CartUiState())
@@ -32,28 +36,25 @@ class CartViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-           combine(
-               cartRepository.getCartItems(),
-               cartRepository.getTotalPrice(),
-               cartRepository.getCartItemCount()
-           ) { items, price, count ->
-               CartUiState(
-                   cartItems = items,
-                   totalPrice = price,
-                   itemCount = count,
-                   isLoading = false
-               )
-           }.collect { newState ->
-               _uiState.value = newState
-           }
+            getCartItemsUseCase().collect { items ->
+                val totalPrice = items.sumOf { it.totalPrice }
+                val itemCount = items.sumOf { it.quantity }
+
+                _uiState.value = CartUiState(
+                    cartItems = items,
+                    totalPrice = totalPrice,
+                    itemCount = itemCount,
+                    isLoading = false
+                )
+            }
         }
     }
 
 
-    fun addToCart(food: Food, quantity: Int = 1) {
+    fun addToCart(cartItem: CartItem) {
         viewModelScope.launch {
             try {
-                cartRepository.addToCart(food,quantity)
+                addToCartUseCase(cartItem)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -63,18 +64,20 @@ class CartViewModel @Inject constructor(
     fun removeFromCart(itemId: String) {
         viewModelScope.launch {
             try {
-                cartRepository.removeFromCart(itemId)
+                removeFromCartUseCase(itemId)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    fun updateQuantity(itemId: String, newQuantity: Int) {
-        cartRepository.updateQuantity(itemId, newQuantity)
-    }
-
     fun clearCart() {
-        cartRepository.clearCart()
+        viewModelScope.launch {
+            try {
+                clearCartUseCase()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

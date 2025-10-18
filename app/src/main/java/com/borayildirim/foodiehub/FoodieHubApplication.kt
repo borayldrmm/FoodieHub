@@ -1,12 +1,16 @@
 package com.borayildirim.foodiehub
 
 import android.app.Application
+import com.borayildirim.foodiehub.data.local.dao.FoodDao
 import com.borayildirim.foodiehub.data.local.dao.UserDao
 import com.borayildirim.foodiehub.data.local.entity.UserEntity
+import com.borayildirim.foodiehub.data.local.mapper.toEntity
 import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
+import com.borayildirim.foodiehub.domain.model.MockFoodData
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,18 +20,18 @@ class FoodieHubApplication : Application() {
     @Inject
     lateinit var userDao: UserDao
 
+    @Inject
+    lateinit var foodDao: FoodDao
+
     override fun onCreate() {
         super.onCreate()
 
-        // Add test user (only first opening)
         CoroutineScope(Dispatchers.IO).launch {
+            // Insert test user
             insertTestUserIfNotExists()
 
-            /*
-            // TEST: Save userId in DataStore
-            val preferencesManager = UserPreferencesManager(this@FoodieHubApplication)
-            preferencesManager.saveUserId("temp_user_123")
-             */
+            // Instert mock food data
+            insertMockFoodDataIfNotExists()
         }
     }
 
@@ -44,6 +48,18 @@ class FoodieHubApplication : Application() {
                 profilePicture = null
             )
             userDao.insertUser(testUser)
+        }
+    }
+
+    private suspend fun insertMockFoodDataIfNotExists() {
+        // Get first emission from Flow (current state)
+        val existingFoods = foodDao.getAllFoods().first()
+
+        // Only insert if database is empty
+        if (existingFoods.isEmpty()) {
+            val mockFoods = MockFoodData.getAllFoods()
+            val foodEntities = mockFoods.map { it.toEntity() }
+            foodDao.insertAll(foodEntities)
         }
     }
 }

@@ -2,13 +2,15 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.domain.repository.CartRepository
-import com.borayildirim.foodiehub.domain.repository.FoodRepository
+import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.GetFoodByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 data class FoodDetailUiState(
@@ -22,8 +24,8 @@ data class FoodDetailUiState(
 
 @HiltViewModel
 class FoodDetailViewModel @Inject constructor(
-    private val foodRepository: FoodRepository,
-    private val cartRepository: CartRepository
+    private val getFoodByIdUseCase: GetFoodByIdUseCase,
+    private val addToCartUseCase: AddToCartUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(FoodDetailUiState())
@@ -34,19 +36,20 @@ class FoodDetailViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
 
             try {
-                val food = foodRepository.getFood(foodId)
-                if (food != null) {
-                    val initialPrice = calculateTotalPrice(food, 1)
-                    _uiState.value = _uiState.value.copy(
-                        food = food,
-                        isLoading = false,
-                        totalPrice = initialPrice
-                    )
-                } else {
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        error = "Cannot find food"
-                    )
+                getFoodByIdUseCase(foodId).collect { food ->
+                    if (food != null) {
+                        val initialPrice = calculateTotalPrice(food, 1)
+                        _uiState.value = _uiState.value.copy(
+                            food = food,
+                            isLoading = false,
+                            totalPrice = initialPrice
+                        )
+                    } else {
+                        _uiState.value = _uiState.value.copy(
+                            isLoading = false,
+                            error = "Cannot find food"
+                        )
+                    }
                 }
             }catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
@@ -79,7 +82,18 @@ class FoodDetailViewModel @Inject constructor(
     fun addToCart() {
         val state = _uiState.value
         state.food?.let { food ->
-            cartRepository.addToCart(food, state.portion)
+            viewModelScope.launch {
+                try {
+                    val cartItem = CartItem(
+                        food = food,
+                        quantity = state.portion,
+                        itemId = UUID.randomUUID().toString()
+                    )
+                    addToCartUseCase(cartItem)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 }
