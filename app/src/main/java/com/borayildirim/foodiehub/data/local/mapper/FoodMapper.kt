@@ -27,3 +27,15 @@ fun FoodEntity.toDomain(
         availableSideOptions = availableSideOptions
     )
 }
+
+fun Food.toEntity(): FoodEntity {
+    return FoodEntity(
+        id = this.id,
+        name = this.name,
+        price = this.price,
+        imageResource = this.imageResource,
+        rating = this.rating,
+        preparationTimeMinutes = this.preparationTimeMinutes,
+        categoryId = this.categoryId
+    )
+}
