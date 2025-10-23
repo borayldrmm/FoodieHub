@@ -13,6 +13,7 @@ import com.borayildirim.foodiehub.presentation.screens.FavoritesScreen
 import com.borayildirim.foodiehub.presentation.screens.FoodDetailScreen
 import com.borayildirim.foodiehub.presentation.screens.HomeScreen
 import com.borayildirim.foodiehub.presentation.screens.LoginScreen
+import com.borayildirim.foodiehub.presentation.screens.PaymentScreen
 import com.borayildirim.foodiehub.presentation.screens.ProfileScreen
 import com.borayildirim.foodiehub.presentation.screens.RegisterScreen
 import com.borayildirim.foodiehub.presentation.screens.SplashScreen
@@ -63,6 +64,10 @@ fun NavGraph(navController: NavHostController) {
         // ProfileScreen
         composable(Route.Profile.route) {
             ProfileScreen(navController)
+        }
+
+        composable(Route.Payment.route) {
+            PaymentScreen(navController = navController)
         }
     }
 }

@@ -26,10 +26,6 @@ fun HomeScreen(navController: NavController) {
     val viewModel =hiltViewModel<HomeViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.loadInitialData()
-    }
-
     if (uiState.isLoading) {
         Box(
             modifier = Modifier.fillMaxSize(),
