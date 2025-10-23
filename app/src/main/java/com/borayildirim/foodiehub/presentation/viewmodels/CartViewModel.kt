@@ -7,6 +7,7 @@ import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
 import com.borayildirim.foodiehub.domain.usecase.ClearCartUseCase
 import com.borayildirim.foodiehub.domain.usecase.GetCartItemsUseCase
 import com.borayildirim.foodiehub.domain.usecase.RemoveFromCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.UpdateCartQuantityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,8 @@ class CartViewModel @Inject constructor(
     private val getCartItemsUseCase: GetCartItemsUseCase,
     private val addToCartUseCase: AddToCartUseCase,
     private val removeFromCartUseCase: RemoveFromCartUseCase,
-    private val clearCartUseCase: ClearCartUseCase
+    private val clearCartUseCase: ClearCartUseCase,
+    private val updateCartQuantityUseCase: UpdateCartQuantityUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(CartUiState())
@@ -65,6 +67,16 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 removeFromCartUseCase(itemId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun updateQuantity(itemId: String, newQuantity: Int) {
+        viewModelScope.launch {
+            try {
+                updateCartQuantityUseCase(itemId, newQuantity)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

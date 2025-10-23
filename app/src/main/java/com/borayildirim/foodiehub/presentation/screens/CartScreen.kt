@@ -105,7 +105,7 @@ fun CartScreen(
                     cartViewModel.removeFromCart(itemId)
                 },
                 onCheckout = {
-                    // Login check logic
+                    navController.navigate(Route.Payment.route)
                 }
             )
         }
@@ -243,6 +243,5 @@ private fun CartContent(
                 }
             }
         }
-
     }
 }

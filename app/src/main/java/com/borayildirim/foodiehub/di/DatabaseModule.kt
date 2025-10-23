@@ -3,6 +3,8 @@ package com.borayildirim.foodiehub.di
 import android.content.Context
 import androidx.room.Room
 import com.borayildirim.foodiehub.data.local.AppDatabase
+import com.borayildirim.foodiehub.data.local.dao.CartDao
+import com.borayildirim.foodiehub.data.local.dao.FoodDao
 import com.borayildirim.foodiehub.data.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -31,5 +33,17 @@ object DatabaseModule {
     @Singleton
     fun provideUserDao(database: AppDatabase): UserDao {
         return database.userDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFoodDao(database: AppDatabase): FoodDao {
+        return database.foodDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartDao(database: AppDatabase): CartDao {
+        return database.cartDao()
     }
 }

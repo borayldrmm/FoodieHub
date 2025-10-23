@@ -131,4 +131,17 @@
     <string name="logout_confirmation_title">Çıkış Yap</string>
     <string name="logout_confirmation_message">Çıkış yapmak istediğinize emin misiniz?</string>
     <string name="confirm_logout">Çıkış Yap</string>
+
+    <!-- Payment Screen -->
+    <string name="save_card_details">Kart bilgilerini kaydet</string>
+    <string name="payment_methods">Ödeme Yöntemleri</string>
+    <string name="payment">Ödeme</string>
+    <string name="total_price">Toplam Fiyat</string>
+    <string name="pay_now">Ödeme Yap</string>
+    <string name="order_summary">Sipariş Geçmişi</string>
+    <string name="order">Sipariş</string>
+    <string name="taxes">Vergiler</string>
+    <string name="delivery_fees">Teslimat Ücreti</string>
+    <string name="estimated_delivery_time">Tahmini teslimat süresi</string>
+    <string name="go_back">Geri Dön</string>
 </resources>
