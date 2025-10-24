@@ -105,7 +105,13 @@ fun CartScreen(
                     cartViewModel.removeFromCart(itemId)
                 },
                 onCheckout = {
-                    navController.navigate(Route.Payment.route)
+                    val userId = cartViewModel.getCurrentUserId()
+
+                    if (userId != null) {
+                        navController.navigate(Route.Payment.route)
+                    } else {
+                        navController.navigate(Route.Profile.route)
+                    }
                 }
             )
         }

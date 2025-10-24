@@ -138,10 +138,27 @@
     <string name="payment">Ödeme</string>
     <string name="total_price">Toplam Fiyat</string>
     <string name="pay_now">Ödeme Yap</string>
-    <string name="order_summary">Sipariş Geçmişi</string>
+    <string name="order_summary">Sipariş Özeti</string>
     <string name="order">Sipariş</string>
     <string name="taxes">Vergiler</string>
     <string name="delivery_fees">Teslimat Ücreti</string>
     <string name="estimated_delivery_time">Tahmini teslimat süresi</string>
+    <string name="payment_success_msg">Ödeme işlemi başarılı.\nFaturanız kayıtlı e-posta\nadresinize gönderildi.</string>
+    <string name="payment_success_title">Ödeme Başarılı !</string>
     <string name="go_back">Geri Dön</string>
+
+    <!-- Add Payment Card Dialog -->
+    <string name="add_payment_card">Ödeme Yöntemi Ekle</string>
+    <string name="card_number">Kart Numarası</string>
+    <string name="card_number_placeholder">1234 5678 9012 3456</string>
+    <string name="card_holder_name">Kart Sahibinin Adı</string>
+    <string name="card_holder_placeholder">Ad Soyad</string>
+    <string name="expiry">SKT</string>
+    <string name="expiry_placeholder">AA/YY</string>
+    <string name="cvv">CVV</string>
+    <string name="cvv_placeholder">123</string>
+    <string name="card_type">Kart Türü</string>
+    <string name="set_as_default">Varsayılan ödeme yöntemi olarak ayarla</string>
+    <string name="add_card">Kart Ekle</string>
+    <string name="add_card_button_desc">Kart Ekle</string>
 </resources>
