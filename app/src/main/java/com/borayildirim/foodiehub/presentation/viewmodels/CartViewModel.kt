@@ -2,6 +2,7 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
 import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
 import com.borayildirim.foodiehub.domain.usecase.ClearCartUseCase
@@ -11,7 +12,9 @@ import com.borayildirim.foodiehub.domain.usecase.UpdateCartQuantityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -29,7 +32,8 @@ class CartViewModel @Inject constructor(
     private val addToCartUseCase: AddToCartUseCase,
     private val removeFromCartUseCase: RemoveFromCartUseCase,
     private val clearCartUseCase: ClearCartUseCase,
-    private val updateCartQuantityUseCase: UpdateCartQuantityUseCase
+    private val updateCartQuantityUseCase: UpdateCartQuantityUseCase,
+    private val userPreferencesManager: UserPreferencesManager
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(CartUiState())
@@ -90,6 +94,12 @@ class CartViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    fun getCurrentUserId(): String? {
+        return runBlocking {
+            userPreferencesManager.getUserId().first()
         }
     }
 }

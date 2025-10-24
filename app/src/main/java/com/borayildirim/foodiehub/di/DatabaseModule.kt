@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.borayildirim.foodiehub.data.local.AppDatabase
 import com.borayildirim.foodiehub.data.local.dao.CartDao
 import com.borayildirim.foodiehub.data.local.dao.FoodDao
+import com.borayildirim.foodiehub.data.local.dao.PaymentCardDao
 import com.borayildirim.foodiehub.data.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -45,5 +46,11 @@ object DatabaseModule {
     @Singleton
     fun provideCartDao(database: AppDatabase): CartDao {
         return database.cartDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentCardDao(database: AppDatabase): PaymentCardDao {
+        return database.paymentCardDao()
     }
 }
