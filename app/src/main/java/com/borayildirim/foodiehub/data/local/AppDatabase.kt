@@ -4,10 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.borayildirim.foodiehub.data.local.dao.CartDao
 import com.borayildirim.foodiehub.data.local.dao.FoodDao
+import com.borayildirim.foodiehub.data.local.dao.OrderDao
 import com.borayildirim.foodiehub.data.local.dao.PaymentCardDao
 import com.borayildirim.foodiehub.data.local.dao.UserDao
 import com.borayildirim.foodiehub.data.local.entity.CartItemEntity
 import com.borayildirim.foodiehub.data.local.entity.FoodEntity
+import com.borayildirim.foodiehub.data.local.entity.OrderEntity
+import com.borayildirim.foodiehub.data.local.entity.OrderItemEntity
 import com.borayildirim.foodiehub.data.local.entity.PaymentCardEntity
 import com.borayildirim.foodiehub.data.local.entity.UserEntity
 
@@ -16,9 +19,11 @@ import com.borayildirim.foodiehub.data.local.entity.UserEntity
         UserEntity::class,
         FoodEntity::class,
         CartItemEntity::class,
-        PaymentCardEntity::class
+        PaymentCardEntity::class,
+        OrderEntity::class,
+        OrderItemEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 
@@ -27,4 +32,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
     abstract fun cartDao(): CartDao
     abstract fun paymentCardDao(): PaymentCardDao
+
+    abstract fun orderDao(): OrderDao
 }
