@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.borayildirim.foodiehub.R
@@ -147,7 +148,8 @@ fun PaymentScreen(
                         Text(
                             text = stringResource(R.string.total_price),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = "$${String.format("%.2f", uiState.orderSummary.total)}",
@@ -164,8 +166,8 @@ fun PaymentScreen(
                             .height(56.dp)
                             .width(160.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF292524),
-                            disabledContainerColor = Color(0xFF292524).copy(alpha = 0.5f)
+                            containerColor = MaterialTheme.colorScheme.onPrimary,
+                            disabledContainerColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
                         ),
                         shape = RoundedCornerShape(16.dp)
                     ) {
@@ -178,7 +180,9 @@ fun PaymentScreen(
                             Text(
                                 text = stringResource(R.string.pay_now),
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 19.sp,
+                                color = Color.White
                             )
                         }
                     }

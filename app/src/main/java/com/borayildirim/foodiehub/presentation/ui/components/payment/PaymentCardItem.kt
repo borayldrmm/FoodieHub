@@ -33,7 +33,7 @@ fun PaymentCardItem(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected)
-                MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.15f)
+                Color(0xFFFEE2E2)
             else
                 MaterialTheme.colorScheme.surface
         ),

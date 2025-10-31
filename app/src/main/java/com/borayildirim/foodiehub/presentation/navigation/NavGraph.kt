@@ -13,6 +13,8 @@ import com.borayildirim.foodiehub.presentation.screens.FavoritesScreen
 import com.borayildirim.foodiehub.presentation.screens.FoodDetailScreen
 import com.borayildirim.foodiehub.presentation.screens.HomeScreen
 import com.borayildirim.foodiehub.presentation.screens.LoginScreen
+import com.borayildirim.foodiehub.presentation.screens.OrderDetailScreen
+import com.borayildirim.foodiehub.presentation.screens.OrderHistoryScreen
 import com.borayildirim.foodiehub.presentation.screens.PaymentScreen
 import com.borayildirim.foodiehub.presentation.screens.ProfileScreen
 import com.borayildirim.foodiehub.presentation.screens.RegisterScreen
@@ -68,6 +70,23 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Route.Payment.route) {
             PaymentScreen(navController = navController)
+        }
+
+        composable(Route.OrderHistory.route) {
+            OrderHistoryScreen(navController = navController)
+        }
+
+        composable(
+            route = Route.OrderDetail.route,
+            arguments = listOf(
+                navArgument("orderId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val orderId = backStackEntry.arguments?.getString("orderId") ?: ""
+            OrderDetailScreen(
+                navController = navController,
+                orderId = orderId
+            )
         }
     }
 }

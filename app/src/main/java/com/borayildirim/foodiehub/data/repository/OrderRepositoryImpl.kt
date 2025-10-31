@@ -8,6 +8,9 @@ import com.borayildirim.foodiehub.domain.model.OrderStatus
 import com.borayildirim.foodiehub.domain.repository.OrderRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -16,10 +19,13 @@ class OrderRepositoryImpl @Inject constructor(
 ) : OrderRepository {
 
     override fun getUserOrders(userId: String): Flow<List<Order>> {
-        return orderDao.getUserOrders(userId).map { orderEntities ->
-            orderEntities.map { orderEntity ->
-                val items = orderDao.getOrderItems(orderEntity.id)
-                orderEntity.toDomain(items = emptyList())
+        return flow {
+            orderDao.getUserOrders(userId).collect { orderEntities ->
+                val orderWithItems = orderEntities.map { orderEntity ->
+                    val items = orderDao.getOrderItems(orderEntity.id).first()
+                    orderEntity.toDomain(items)
+                }
+                emit(orderWithItems)
             }
         }
     }
