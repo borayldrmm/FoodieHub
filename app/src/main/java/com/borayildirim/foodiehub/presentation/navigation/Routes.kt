@@ -26,4 +26,10 @@ sealed class Route(val route: String) {
     data object Customization: Route("customization_screen/{foodId}") {
         fun createRoute(foodId: Int) = "customization_screen/$foodId"
     }
+
+    data object OrderHistory : Route("order_history")
+
+    data object OrderDetail : Route("order_detail/{orderId}") {
+        fun createRoute(orderId: String) = "order_detail/$orderId"
+    }
 }

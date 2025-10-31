@@ -161,4 +161,21 @@
     <string name="set_as_default">Varsayılan ödeme yöntemi olarak ayarla</string>
     <string name="add_card">Kart Ekle</string>
     <string name="add_card_button_desc">Kart Ekle</string>
+    <string name="my_order_history">Geçmiş Siparişlerim</string>
+    <string name="an_error_occurred">Bir hata oluştu</string>
+    <string name="no_orders_yet">Henüz bir sipariş vermediniz.</string>
+
+    <!-- Order Detail -->
+    <string name="order_details">Sipariş Detayları</string>
+    <string name="order_items">Sipariş Ürünleri</string>
+    <string name="order_id">Sipariş No</string>
+    <string name="order_date">Sipariş Tarihi</string>
+    <string name="delivery_address">Teslimat Adresi</string>
+    <string name="estimated_delivery">Tahmini Teslimat</string>
+    <string name="payment_summary">Ödeme Özeti</string>
+    <string name="subtotal">Ara Toplam</string>
+    <string name="tax">Vergi</string>
+    <string name="delivery_fee">Teslimat Ücreti</string>
+    <string name="total">Toplam</string>
+    <string name="quantity">Adet</string>
 </resources>

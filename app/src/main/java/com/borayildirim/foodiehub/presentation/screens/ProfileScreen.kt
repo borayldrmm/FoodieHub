@@ -63,6 +63,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.domain.model.User
+import com.borayildirim.foodiehub.presentation.navigation.Route
 import com.borayildirim.foodiehub.presentation.ui.components.profile.ChangePasswordBottomSheet
 import com.borayildirim.foodiehub.presentation.ui.components.profile.LogoutConfirmationDialog
 import com.borayildirim.foodiehub.presentation.ui.components.profile.PasswordField
@@ -115,7 +116,9 @@ fun ProfileScreen(
                 isEditing = uiState.isEditing,
                 onBackClick = { navController.popBackStack() },
                 onPaymentDetailsClick = { /* Payment details navigation */ },
-                onOrderHistoryClick = { /* Order history navigation */ },
+                onOrderHistoryClick = {
+                    navController.navigate(Route.OrderHistory.route)
+                },
                 onEditProfileClick = { profileViewModel.toggleEditMode() },
                 onSaveClick = { profileViewModel.saveProfile() },
                 onCancelClick = { profileViewModel.cancelEdit() },
