@@ -60,11 +60,3 @@ fun HomeHeader(onProfileClick: () -> Unit = { }) {
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun HomeHeaderPreview() {
-    FoodieHubTheme {
-        HomeHeader()
-    }
-}

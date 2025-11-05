@@ -1,12 +1,22 @@
 package com.borayildirim.foodiehub.domain.model
 
 data class Address(
-    val street: String,
+    val id: String,
+    val userId: String,
+    val title: String,
+    val addressType: AddressType,
+    val fullAddress: String,
     val city: String,
-    val state: String,
-    val zipCode: String
-) {
-    fun getFullAddress(): String {
-        return "$street, $city, $state, $zipCode"
-    }
+    val district: String,
+    val zipCode: String?,
+    val phoneNumber: String,
+    val isDefault: Boolean,
+    val createdAt: Long,
+    val updatedAt: Long
+)
+
+enum class AddressType {
+    HOME,
+    WORK,
+    OTHER
 }
