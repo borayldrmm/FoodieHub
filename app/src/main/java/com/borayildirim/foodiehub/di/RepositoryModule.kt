@@ -1,11 +1,13 @@
 package com.borayildirim.foodiehub.di
 
+import com.borayildirim.foodiehub.data.repository.AddressRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.CartRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.FoodRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.OrderRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.PaymentCardRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.ProfileRepositoryImpl
 import com.borayildirim.foodiehub.data.repository.UserRepositoryImpl
+import com.borayildirim.foodiehub.domain.repository.AddressRepository
 import com.borayildirim.foodiehub.domain.repository.CartRepository
 import com.borayildirim.foodiehub.domain.repository.FoodRepository
 import com.borayildirim.foodiehub.domain.repository.OrderRepository
@@ -46,4 +48,10 @@ abstract class RepositoryModule {
     abstract fun bindOrderRepository(
         orderRepositoryImpl: OrderRepositoryImpl
     ): OrderRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAddressRepository(
+        addressRepositoryImpl: AddressRepositoryImpl
+    ): AddressRepository
 }
