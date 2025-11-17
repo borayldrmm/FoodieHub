@@ -32,4 +32,7 @@ sealed class Route(val route: String) {
     data object OrderDetail : Route("order_detail/{orderId}") {
         fun createRoute(orderId: String) = "order_detail/$orderId"
     }
+
+    data object AddressListRoute : Route("address_list")
+    data object AddAddressRoute : Route("add_address")
 }
