@@ -7,6 +7,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.borayildirim.foodiehub.presentation.screens.AddAddressScreen
+import com.borayildirim.foodiehub.presentation.screens.AddressListScreen
 import com.borayildirim.foodiehub.presentation.screens.CartScreen
 import com.borayildirim.foodiehub.presentation.screens.CustomizationScreen
 import com.borayildirim.foodiehub.presentation.screens.FavoritesScreen
@@ -37,12 +39,10 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Route.Home.route) { HomeScreen(navController) }
 
-        // FavoritesScreen
         composable(Route.Favorites.route) {
             FavoritesScreen(navController)
         }
 
-        // Cart route
         composable(Route.Cart.route) {
             CartScreen(navController)
         }
@@ -63,7 +63,6 @@ fun NavGraph(navController: NavHostController) {
             CustomizationScreen(navController = navController, foodId = foodId)
         }
 
-        // ProfileScreen
         composable(Route.Profile.route) {
             ProfileScreen(navController)
         }
@@ -86,6 +85,23 @@ fun NavGraph(navController: NavHostController) {
             OrderDetailScreen(
                 navController = navController,
                 orderId = orderId
+            )
+        }
+
+        // Address Management Routes
+        composable(Route.AddressListRoute.route) {
+            AddressListScreen(
+                onNavigateBack = { navController.navigateUp() },
+                onNavigateToAddAddress = { navController.navigate(Route.AddAddressRoute.route) },
+                onNavigateToEditAddress = { addressId ->
+                    // TODO: Implement edit functionality in future PR
+                }
+            )
+        }
+
+        composable(Route.AddAddressRoute.route) {
+            AddAddressScreen(
+                onNavigateBack = { navController.navigateUp() }
             )
         }
     }

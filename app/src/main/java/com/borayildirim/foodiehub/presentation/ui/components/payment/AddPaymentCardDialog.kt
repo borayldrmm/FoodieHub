@@ -199,7 +199,7 @@ fun AddPaymentCardDialog(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = stringResource(R.string.set_as_default),
+                        text = stringResource(R.string.set_as_default_payment),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )

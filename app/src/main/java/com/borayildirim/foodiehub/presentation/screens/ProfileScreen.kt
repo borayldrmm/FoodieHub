@@ -80,7 +80,7 @@ import java.io.File
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    profileViewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val uiState by profileViewModel.uiState.collectAsState()
     val isLoggedIn by profileViewModel.isLoggedIn.collectAsState()
@@ -147,7 +147,8 @@ fun ProfileScreen(
                 onImageSelected = { uri ->
                     profileViewModel.updateProfileImage(uri)
                 },
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                navController = navController
             )
         }
     }
@@ -171,7 +172,8 @@ private fun ProfileContent(
     onPasswordChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
     onImageSelected: (Uri) -> Unit,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    navController: NavController
 ) {
 
     val coroutineScope = rememberCoroutineScope()
@@ -306,7 +308,7 @@ private fun ProfileContent(
                     .padding(vertical = 16.dp)
             ) {
 
-                // Form Fields
+                // Name field
                 ProfileFormField(
                     label = stringResource(R.string.name_txt),
                     value = if (isEditing) editableUser?.fullName ?: "" else user.fullName,
@@ -314,6 +316,7 @@ private fun ProfileContent(
                     enabled = isEditing
                 )
 
+                // E-mail field
                 ProfileFormField(
                     label = stringResource(R.string.email),
                     value = if (isEditing) editableUser?.email ?: "" else user.email,
@@ -321,14 +324,7 @@ private fun ProfileContent(
                     enabled = isEditing
                 )
 
-                ProfileFormField(
-                    label = stringResource(R.string.delivery_adress),
-                    value = if (isEditing) editableUser?.deliveryAddress ?: "" else user.deliveryAddress ?: "",
-                    onValueChange = onAddressChange,
-                    enabled = isEditing
-
-                )
-
+                // Phone number field
                 ProfileFormField(
                     label = stringResource(R.string.phone_number),
                     value = if (isEditing) editableUser?.phoneNumber ?: "" else user.phoneNumber ?: "",
@@ -351,6 +347,12 @@ private fun ProfileContent(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Navigation Cards
+                ProfileNavigationCard(
+                    title = stringResource(R.string.saved_address),
+                    onClick = { navController.navigate(Route.AddressListRoute.route) }
+                )
+
+                // Payment Details
                 ProfileNavigationCard(
                     title = stringResource(R.string.payment_details),
                     onClick = onPaymentDetailsClick
