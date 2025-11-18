@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.domain.usecase
+package com.borayildirim.foodiehub.domain.usecase.order
 
 import com.borayildirim.foodiehub.domain.model.Order
 import com.borayildirim.foodiehub.domain.repository.OrderRepository

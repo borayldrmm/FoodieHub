@@ -7,9 +7,8 @@ import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
 import com.borayildirim.foodiehub.domain.model.Address
 import com.borayildirim.foodiehub.domain.model.AddressType
-import com.borayildirim.foodiehub.domain.repository.AddressRepository
-import com.borayildirim.foodiehub.domain.usecase.addressusecases.InsertAddressUseCase
-import com.borayildirim.foodiehub.domain.usecase.addressusecases.UpdateAddressUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.InsertAddressUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.UpdateAddressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

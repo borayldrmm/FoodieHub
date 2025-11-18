@@ -29,7 +29,9 @@ fun PaymentScreen(
     viewModel: PaymentViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showAddressDialog by remember { mutableStateOf(false) }
 
+    // Payment Success Dialog
     if (uiState.paymentSuccess) {
         PaymentSuccessDialog(
             onDismiss = {
@@ -41,6 +43,7 @@ fun PaymentScreen(
         )
     }
 
+    // Add Card Dialog
     if (uiState.showAddCardDialog) {
         AddPaymentCardDialog(
             onDismiss = { viewModel.hideAddCardDialog() },
@@ -51,6 +54,23 @@ fun PaymentScreen(
             }
         )
     }
+
+    // Address Selection Dialog
+    if (showAddressDialog) {
+        AddressSelectionDialog(
+            addresses = uiState.userAddresses,
+            selectedAddress = uiState.selectedAddress,
+            onAddressSelected = { address ->
+                viewModel.selectAddresses(address)
+            },
+            onDismiss = { showAddressDialog = false },
+            onAddAddressClick = {
+                showAddressDialog = false
+                navController.navigate("add_address")
+            }
+        )
+    }
+
 
     Scaffold(
         topBar = {
@@ -85,8 +105,10 @@ fun PaymentScreen(
                     .fillMaxSize()
                     .padding(bottom = 100.dp),
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+
+                // Order Sumary
                 item {
                     OrderSummaryCard(
                         subtotal = uiState.orderSummary.subtotal,
@@ -97,6 +119,15 @@ fun PaymentScreen(
                     )
                 }
 
+                // Delivery Address Card
+                item {
+                    DeliveryAddressCard(
+                        selectedAddress = uiState.selectedAddress,
+                        onChangeAddressClick = { showAddressDialog = true }
+                    )
+                }
+
+                // Payment Methods Header
                 item {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -119,6 +150,7 @@ fun PaymentScreen(
                     }
                 }
 
+                // Payment Cards
                 items(uiState.availableCards) { card ->
                     PaymentCardItem(
                         card = card,
@@ -130,6 +162,14 @@ fun PaymentScreen(
                 item { Spacer(modifier = Modifier.height(80.dp)) }
             }
 
+            // Error Snackbar
+            uiState.error?.let { errorMessage ->
+                LaunchedEffect(errorMessage) {
+                    // TODO: Show error (you can use SnackbarHost if needed)
+                }
+            }
+
+            // Bottom Payment Bar
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -151,8 +191,9 @@ fun PaymentScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight.Bold
                         )
+
                         Text(
-                            text = "$${String.format("%.2f", uiState.orderSummary.total)}",
+                            text = "₺${String.format("%.2f", uiState.orderSummary.total)}",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimary
@@ -161,7 +202,9 @@ fun PaymentScreen(
 
                     Button(
                         onClick = { viewModel.processPayment() },
-                        enabled = !uiState.isProcessing && uiState.selectedCardId != null,
+                        enabled = !uiState.isProcessing &&
+                                   uiState.selectedCardId != null &&
+                                   uiState.selectedAddress != null,
                         modifier = Modifier
                             .height(56.dp)
                             .width(160.dp),

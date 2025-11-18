@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
 import com.borayildirim.foodiehub.domain.model.Address
-import com.borayildirim.foodiehub.domain.usecase.addressusecases.DeleteAddressUseCase
-import com.borayildirim.foodiehub.domain.usecase.addressusecases.GetUserAddressesUseCase
-import com.borayildirim.foodiehub.domain.usecase.addressusecases.SetDefaultAddressUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.DeleteAddressUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.GetUserAddressesUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.SetDefaultAddressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

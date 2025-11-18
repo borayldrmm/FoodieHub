@@ -6,7 +6,7 @@ import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.model.Food
 import com.borayildirim.foodiehub.domain.model.SideOption
 import com.borayildirim.foodiehub.domain.model.Topping
-import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.AddToCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

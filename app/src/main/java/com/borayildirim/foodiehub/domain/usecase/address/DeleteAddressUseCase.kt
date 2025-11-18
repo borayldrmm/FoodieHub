@@ -1,13 +1,13 @@
-package com.borayildirim.foodiehub.domain.usecase.addressusecases
+package com.borayildirim.foodiehub.domain.usecase.address
 
 import com.borayildirim.foodiehub.domain.model.Address
 import com.borayildirim.foodiehub.domain.repository.AddressRepository
 import javax.inject.Inject
 
-class InsertAddressUseCase @Inject constructor(
+class DeleteAddressUseCase @Inject constructor(
     private val repository: AddressRepository
 ) {
     suspend operator fun invoke(address: Address) {
-        repository.insertAddress(address)
+        repository.deleteAddress(address)
     }
 }

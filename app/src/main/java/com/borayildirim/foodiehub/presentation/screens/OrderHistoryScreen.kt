@@ -183,7 +183,7 @@ fun OrderHistoryItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "${String.format("%.2f", order.totalAmount)}",
+                    text = "₺ ${String.format("%.2f", order.totalAmount)}",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface

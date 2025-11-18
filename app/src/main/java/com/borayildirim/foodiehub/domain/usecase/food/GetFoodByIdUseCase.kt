@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.domain.usecase
+package com.borayildirim.foodiehub.domain.usecase.food
 
 import com.borayildirim.foodiehub.domain.model.Food
 import com.borayildirim.foodiehub.domain.repository.FoodRepository
@@ -7,10 +7,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetFavoriteFoodsUseCase @Inject constructor(
+class GetFoodByIdUseCase @Inject constructor(
     private val foodRepository: FoodRepository
 ) {
-    operator fun invoke(): Flow<List<Food>> {
-        return foodRepository.getFavoriteFoods()
+    operator fun invoke(foodId: Int): Flow<Food?> {
+        return foodRepository.getFood(foodId)
     }
 }

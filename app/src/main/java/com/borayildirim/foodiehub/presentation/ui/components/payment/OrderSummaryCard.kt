@@ -60,7 +60,7 @@ fun OrderSummaryCard(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "$${String.format("%.2f", total)}",
+                    text = "₺${String.format("%.2f", total)}",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimary
@@ -100,7 +100,7 @@ private fun SummaryRow(label: String, value: Double) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = "$${String.format("%.1f", value)}",
+            text = "₺${String.format("%.1f", value)}",
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Medium
         )
