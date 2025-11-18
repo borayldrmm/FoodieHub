@@ -85,7 +85,7 @@ fun PaymentSummaryCard(order: Order) {
                     color = Color(0xFF1A1A1A)
                 )
                 Text(
-                    text = "$${String.format("%.2f", order.totalAmount)}",
+                    text = "₺ ${String.format("%.2f", order.totalAmount)}",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimary
@@ -111,7 +111,7 @@ private fun PaymentRow(
             color = textColor
         )
         Text(
-            text = "$${String.format("%.2f", amount)}",
+            text = "₺ ${String.format("%.2f", amount)}",
             style = MaterialTheme.typography.bodyLarge,
             color = textColor
         )

@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.domain.usecase
+package com.borayildirim.foodiehub.domain.usecase.user
 
 import com.borayildirim.foodiehub.domain.repository.UserRepository
 import javax.inject.Inject

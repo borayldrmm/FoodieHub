@@ -3,7 +3,7 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.domain.model.Order
-import com.borayildirim.foodiehub.domain.usecase.GetOrderByIdUseCase
+import com.borayildirim.foodiehub.domain.usecase.order.GetOrderByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

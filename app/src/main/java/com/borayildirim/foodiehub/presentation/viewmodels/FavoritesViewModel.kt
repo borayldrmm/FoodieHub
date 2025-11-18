@@ -3,8 +3,8 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.domain.usecase.GetFavoriteFoodsUseCase
-import com.borayildirim.foodiehub.domain.usecase.ToggleFavoriteUseCase
+import com.borayildirim.foodiehub.domain.usecase.food.GetFavoriteFoodsUseCase
+import com.borayildirim.foodiehub.domain.usecase.food.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

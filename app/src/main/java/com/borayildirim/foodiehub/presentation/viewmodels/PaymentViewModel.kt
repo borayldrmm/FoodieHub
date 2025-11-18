@@ -3,23 +3,28 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
+import com.borayildirim.foodiehub.domain.model.Address
 import com.borayildirim.foodiehub.domain.model.CardType
 import com.borayildirim.foodiehub.domain.model.Order
 import com.borayildirim.foodiehub.domain.model.OrderItem
 import com.borayildirim.foodiehub.domain.model.OrderStatus
 import com.borayildirim.foodiehub.domain.model.OrderSummary
 import com.borayildirim.foodiehub.domain.model.PaymentCard
-import com.borayildirim.foodiehub.domain.usecase.AddPaymentCardUseCase
-import com.borayildirim.foodiehub.domain.usecase.ClearCartUseCase
-import com.borayildirim.foodiehub.domain.usecase.CreateOrderUseCase
-import com.borayildirim.foodiehub.domain.usecase.DeletePaymentCardUseCase
-import com.borayildirim.foodiehub.domain.usecase.GetCartItemsUseCase
-import com.borayildirim.foodiehub.domain.usecase.GetUserCardsUseCase
-import com.borayildirim.foodiehub.domain.usecase.SetDefaultCardUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.GetDefaultAddressUseCase
+import com.borayildirim.foodiehub.domain.usecase.address.GetUserAddressesUseCase
+import com.borayildirim.foodiehub.domain.usecase.payment.AddPaymentCardUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.ClearCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.order.CreateOrderUseCase
+import com.borayildirim.foodiehub.domain.usecase.payment.DeletePaymentCardUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.GetCartItemsUseCase
+import com.borayildirim.foodiehub.domain.usecase.payment.GetUserCardsUseCase
+import com.borayildirim.foodiehub.domain.usecase.payment.SetDefaultCardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -38,9 +43,12 @@ data class PaymentUiState(
     val orderSummary: OrderSummary = OrderSummary(0.0, 0.0, 0.0),
     val availableCards: List<PaymentCard> = emptyList(),
     val selectedCardId: String? = null,
+    val selectedAddress: Address? = null,
+    val userAddresses: List<Address> = emptyList(),
     val isProcessing: Boolean = false,
     val paymentSuccess: Boolean = false,
-    val showAddCardDialog: Boolean = false
+    val showAddCardDialog: Boolean = false,
+    val error: String? = null
 )
 
 /**
@@ -70,7 +78,9 @@ class PaymentViewModel @Inject constructor(
     private val deletePaymentCardUseCase: DeletePaymentCardUseCase,
     private val setDefaultCardUseCase: SetDefaultCardUseCase,
     private val createOrderUseCase: CreateOrderUseCase,
-    private val userPreferencesManager: UserPreferencesManager
+    private val userPreferencesManager: UserPreferencesManager,
+    private val getUserAddressesUseCase: GetUserAddressesUseCase,
+    private val getDefaultAddressUseCase: GetDefaultAddressUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PaymentUiState())
@@ -78,6 +88,7 @@ class PaymentViewModel @Inject constructor(
 
     init {
         loadPaymentData()
+        loadUserAddresses()
     }
 
     /**
@@ -89,7 +100,7 @@ class PaymentViewModel @Inject constructor(
      */
     private fun loadPaymentData() {
         viewModelScope.launch {
-            val userId = userPreferencesManager.getUserId().first()
+            val userId = userPreferencesManager.getUserId().firstOrNull()
 
             if (userId != null) {
                 // Load cart items and calculate order summary
@@ -105,21 +116,44 @@ class PaymentViewModel @Inject constructor(
                             deliveryFee = deliveryFee
                         )
 
-                        _uiState.value = _uiState.value.copy(
-                            orderSummary = orderSummary
-                        )
+                        _uiState.update { it.copy(orderSummary = orderSummary) }
                     }
                 }
 
                 // Load user's payment cards
                 launch {
                     getUserCardsUseCase(userId).collect { cards ->
-                        _uiState.value = _uiState.value.copy(
-                            availableCards = cards,
-                            selectedCardId = cards.firstOrNull { it.isDefault }?.id
-                        )
+                        _uiState.update {
+                            it.copy(
+                                availableCards = cards,
+                                selectedCardId = cards.firstOrNull { card -> card.isDefault }?.id
+                            )
+                        }
                     }
                 }
+            }
+        }
+    }
+
+    private fun loadUserAddresses() {
+        viewModelScope.launch {
+            try {
+                val userId = userPreferencesManager.getUserId().firstOrNull()
+
+                if (userId != null) {
+                    // Get all addresses
+                    getUserAddressesUseCase(userId).collect { addresses ->
+                        _uiState.update { currentState ->
+                            currentState.copy(
+                                userAddresses = addresses,
+                                selectedAddress = addresses.firstOrNull { it.isDefault }
+                                    ?: addresses.firstOrNull()
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "Failed to load addresses: ${e.message}") }
             }
         }
     }
@@ -131,6 +165,10 @@ class PaymentViewModel @Inject constructor(
      */
     fun selectCard(cardId: String) {
         _uiState.value = _uiState.value.copy(selectedCardId = cardId)
+    }
+
+    fun selectAddresses(address: Address) {
+        _uiState.update { it.copy(selectedAddress = address) }
     }
 
     /**
@@ -166,7 +204,7 @@ class PaymentViewModel @Inject constructor(
         setAsDefault: Boolean
     ) {
         viewModelScope.launch {
-            val userId = userPreferencesManager.getUserId().first()
+            val userId = userPreferencesManager.getUserId().firstOrNull()
 
             if (userId != null) {
                 val newCard = PaymentCard(
@@ -190,17 +228,6 @@ class PaymentViewModel @Inject constructor(
     }
 
     /**
-     * Deletes a payment card
-     *
-     * @param cardId Payment card ID to delete
-     */
-    fun deleteCard(cardId: String) {
-        viewModelScope.launch {
-            deletePaymentCardUseCase(cardId)
-        }
-    }
-
-    /**
      * Processes payment
      *
      * Flow:
@@ -213,60 +240,95 @@ class PaymentViewModel @Inject constructor(
      * @throws Exception if payment processing fails
      */
     fun processPayment() {
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isProcessing = true)
+        val currentState = _uiState.value
 
+        // Validation: Payment Card
+        if (currentState.selectedCardId == null) {
+            _uiState.update { it.copy(error = "Please select a payment card") }
+            return
+        }
+
+        // Validation: Delivery Address
+        if (currentState.selectedAddress == null) {
+            _uiState.update { it.copy(error = "Please select a delivery address") }
+            return
+        }
+
+        viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isProcessing = true, error = null) }
+
                 // Simulate payment processing
                 kotlinx.coroutines.delay(2000)
 
-                val userId = userPreferencesManager.getUserId().first()
+                val userId = userPreferencesManager.getUserId().firstOrNull()
+                    ?: throw IllegalStateException("User not logged in")
 
-                if (userId != null) {
-                    val cartItems = getCartItemsUseCase().first()
-                    val orderId = UUID.randomUUID().toString()
+                // Get cart items
+                val cartItems = getCartItemsUseCase().firstOrNull() ?: emptyList()
 
-                    // Create order from cart
-                    val order = Order(
-                        id = orderId,
-                        userId = userId,
-                        orderDate = System.currentTimeMillis(),
-                        totalAmount = _uiState.value.orderSummary.total,
-                        deliveryFee = _uiState.value.orderSummary.deliveryFee,
-                        tax = _uiState.value.orderSummary.tax,
-                        status = OrderStatus.PENDING,
-                        deliveryAddress = "Default Address", // TODO: Get from user profile
-                        estimatedDeliveryTime = _uiState.value.orderSummary.estimatedDeliveryTime,
-                        items = cartItems.map { cartItem ->
-                            OrderItem(
-                                id = UUID.randomUUID().toString(),
-                                orderId = orderId,
-                                productId = cartItem.food.id,
-                                productName = cartItem.food.name,
-                                productImage = cartItem.food.imageResource.toString(),
-                                quantity = cartItem.quantity,
-                                price = cartItem.food.price,
-                                spicyLevel = 0f, // TODO: Get from cart customization
-                                selectedToppings = emptyList(), // TODO: Get from cart customization
-                                selectedSides = emptyList() // TODO: Get from cart customization
-                            )
-                        }
-                    )
+                if (cartItems.isEmpty()) {
+                    _uiState.update {
+                        it.copy(
+                            isProcessing = false,
+                            error = "Cart is empty"
+                        )
+                    }
+                    return@launch
+                }
 
-                    // Save order and clear cart
-                    createOrderUseCase(order)
-                    clearCartUseCase()
+                // Create order ID first
+                val orderId = UUID.randomUUID().toString()
 
-                    _uiState.value = _uiState.value.copy(
+                // Create order with items
+                val order = Order(
+                    id = orderId,
+                    userId = userId,
+                    items = cartItems.map { cartItem ->
+                        OrderItem(
+                            id = UUID.randomUUID().toString(),
+                            orderId = orderId,
+                            productId = cartItem.food.id,
+                            productName = cartItem.food.name,
+                            productImage = cartItem.food.imageResource.toString(),
+                            quantity = cartItem.quantity,
+                            price = cartItem.food.price,
+                            spicyLevel = 0f, // TODO: Get from cart customization
+                            selectedToppings = emptyList(), // TODO: Get from cart customization
+                            selectedSides = emptyList() // TODO: Get from cart customization
+                        )
+                    },
+                    totalAmount = currentState.orderSummary.total,
+                    orderDate = System.currentTimeMillis(),
+                    deliveryAddress = currentState.selectedAddress.fullAddress,
+                    estimatedDeliveryTime = currentState.orderSummary.estimatedDeliveryTime,
+                    tax = currentState.orderSummary.tax,
+                    deliveryFee = currentState.orderSummary.deliveryFee,
+                    status = OrderStatus.PENDING
+                )
+
+                // Create order
+                createOrderUseCase(order)
+
+                // Clear cart
+                clearCartUseCase()
+
+                // Show success
+                _uiState.update {
+                    it.copy(
                         isProcessing = false,
                         paymentSuccess = true
                     )
                 }
+
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    isProcessing = false,
-                    paymentSuccess = false
-                )
+                _uiState.update {
+                    it.copy(
+                        isProcessing = false,
+                        paymentSuccess = false,
+                        error = "Payment failed: ${e.message}"
+                    )
+                }
             }
         }
     }
@@ -295,4 +357,22 @@ class PaymentViewModel @Inject constructor(
             cardNumber
         }
     }
+
+    /*
+
+    TODO: Y.A.G.N.I.
+
+    fun deleteCard(cardId: String) {
+    viewModelScope.launch {
+        try {
+            val userId = userPreferencesManager.getUserId().firstOrNull()
+            if (userId != null) {
+                deletePaymentCardUseCase(cardId)
+            }
+        } catch (e: Exception) {
+            _uiState.update { it.copy(error = "Failed to delete card: ${e.message}") }
+        }
+    }
+}
+     */
 }

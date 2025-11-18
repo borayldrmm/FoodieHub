@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
 import com.borayildirim.foodiehub.domain.model.CartItem
-import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
-import com.borayildirim.foodiehub.domain.usecase.ClearCartUseCase
-import com.borayildirim.foodiehub.domain.usecase.GetCartItemsUseCase
-import com.borayildirim.foodiehub.domain.usecase.RemoveFromCartUseCase
-import com.borayildirim.foodiehub.domain.usecase.UpdateCartQuantityUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.AddToCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.ClearCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.GetCartItemsUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.RemoveFromCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.UpdateCartQuantityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

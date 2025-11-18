@@ -43,7 +43,7 @@ fun OrderItemCard(item: OrderItem) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Product Image - Daha belirgin
+            // Product Image
             Box(
                 modifier = Modifier
                     .size(72.dp)
@@ -84,9 +84,9 @@ fun OrderItemCard(item: OrderItem) {
                 )
             }
 
-            // Price - Daha belirgin
+            // Price
             Text(
-                text = "$${String.format("%.2f", item.price * item.quantity)}",
+                text = "₺ ${String.format("%.2f", item.price * item.quantity)}",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimary

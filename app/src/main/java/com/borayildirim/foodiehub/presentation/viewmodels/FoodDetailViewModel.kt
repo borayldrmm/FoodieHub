@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.model.Food
-import com.borayildirim.foodiehub.domain.usecase.AddToCartUseCase
-import com.borayildirim.foodiehub.domain.usecase.GetFoodByIdUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.AddToCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.food.GetFoodByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

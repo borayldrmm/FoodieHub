@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.domain.model.User
 import com.borayildirim.foodiehub.domain.repository.ProfileRepository
-import com.borayildirim.foodiehub.domain.usecase.CheckUserLoginStatusUseCase
+import com.borayildirim.foodiehub.domain.usecase.user.CheckUserLoginStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

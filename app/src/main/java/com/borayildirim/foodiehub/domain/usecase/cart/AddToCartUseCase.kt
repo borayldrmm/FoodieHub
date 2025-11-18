@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.domain.usecase
+package com.borayildirim.foodiehub.domain.usecase.cart
 
 import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.repository.CartRepository

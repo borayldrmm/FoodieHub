@@ -206,4 +206,17 @@
     <string name="address_information">Adres Bilgileri</string>
     <string name="location_details">Konum Detayları</string>
     <string name="contact_information">İletişim Bilgileri</string>
+
+    <!-- Payment Screen - Address -->
+    <string name="change_address">Adres değiştir</string>
+    <string name="no_address_selected">Hiçbir adres seçilmedi</string>
+    <string name="select_address">Adres seç</string>
+
+
+    <!-- Address Selection Dialog -->
+    <string name="select_delivery_address">Teslimat Adresi Seç</string>
+    <string name="close">Kapat</string>
+    <string name="no_saved_addresses">Kayıtlı adres yok</string>
+    <string name="selected">Seçildi</string>
+
 </resources>

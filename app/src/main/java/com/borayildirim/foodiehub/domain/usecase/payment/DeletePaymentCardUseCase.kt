@@ -1,4 +1,4 @@
-package com.borayildirim.foodiehub.domain.usecase
+package com.borayildirim.foodiehub.domain.usecase.payment
 
 import com.borayildirim.foodiehub.domain.repository.PaymentCardRepository
 import javax.inject.Inject
