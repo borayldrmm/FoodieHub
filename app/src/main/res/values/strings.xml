@@ -179,7 +179,7 @@
     <string name="total">Toplam</string>
     <string name="quantity">Adet</string>
     <string name="default_txt">VARSAYILAN</string>
-    <string name="set_as_default">Varsayılan olarak ayarla</string>
+    <string name="set_as_default">Varsayılan yap</string>
     <string name="delete">Sil</string>
     <string name="dont_have_register_adress">Kayıtlı adresiniz yok.</string>
     <string name="add_address_subtitle">Adresinizi ekleyin ve siparişiniz kapınıza gelsin!</string>
@@ -218,5 +218,13 @@
     <string name="close">Kapat</string>
     <string name="no_saved_addresses">Kayıtlı adres yok</string>
     <string name="selected">Seçildi</string>
+
+    <!-- Payment Details Screen -->
+    <string name="no_cards_saved">Kayıtlı kart yok</string>
+    <string name="default_card">Varsayılan</string>
+    <string name="card_holder">Kart Sahibi</string>
+    <string name="expires">Son Kullanma</string>
+    <string name="delete_card_title">Kartı Sil</string>
+    <string name="delete_card_message">Bu kartı silmek istediğinizden emin misiniz?</string>
 
 </resources>

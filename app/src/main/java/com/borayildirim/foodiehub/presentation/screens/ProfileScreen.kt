@@ -115,7 +115,9 @@ fun ProfileScreen(
                 editableUser = uiState.editableUser,
                 isEditing = uiState.isEditing,
                 onBackClick = { navController.popBackStack() },
-                onPaymentDetailsClick = { /* Payment details navigation */ },
+                onPaymentDetailsClick = {
+                    navController.navigate(Route.PaymentDetails.route)
+                },
                 onOrderHistoryClick = {
                     navController.navigate(Route.OrderHistory.route)
                 },
