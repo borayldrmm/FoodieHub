@@ -47,6 +47,13 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
     }
 }
 
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Add isFavorite column to foods table
+        db.execSQL("ALTER TABLE foods ADD COLUMN isFavorite INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -62,7 +69,7 @@ object DatabaseModule {
             AppDatabase::class.java,
             "foodiehub_db"
         )
-            .addMigrations(MIGRATION_4_5)
+            .addMigrations(MIGRATION_4_5, MIGRATION_5_6)
             .build()
     }
 

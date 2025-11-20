@@ -4,42 +4,47 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.borayildirim.foodiehub.domain.usecase.cart.GetCartItemCountUseCase
 import com.borayildirim.foodiehub.presentation.navigation.NavGraph
 import com.borayildirim.foodiehub.presentation.navigation.Route
 import com.borayildirim.foodiehub.presentation.theme.FoodieHubTheme
 import com.borayildirim.foodiehub.presentation.ui.components.BottomNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 /**
- * Main entry point activity for the FoodieHub application.
+ * Main entry point activity for the FoodieHub application
  *
- * Manages the primary navigation structure and UI state for the entire app.
- * Implements conditional bottom navigation visibility based on current route
- * and provides the main navigation graph for screen transitions.
- *
- * Features:
- * - Conditional bottom navigation (hidden on splash screen)
- * - Navigation state management with Jetpack Navigation
- * - Material3 theme integration
- * - Edge-to-edge display support
- * - TRANSPARENT Scaffold background for proper content visibility
- *
+ * Manages primary navigation structure and global UI state including
+ * cart badge count visible across all screens with bottom navigation.
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -53,29 +58,24 @@ class MainActivity : ComponentActivity() {
                 val currentDestination = navController.currentBackStackEntryAsState()
                 val currentRoute = currentDestination.value?.destination?.route
                 val showBottomBar = remember(currentRoute) {
-                    mainScreenRoutes.contains(currentRoute)
+                    currentRoute?.startsWith("home") == true ||
+                            mainScreenRoutes.contains(currentRoute)
                 }
 
+                val cartItemCount by viewModel.cartItemCount.collectAsState()
 
-                /**
-                 * Conditional UI rendering: Bottom navigation is hidden during splash screen
-                 * to provide distraction-free app loading experience, then shown for main app navigation.
-                 *
-                 * IMPORTANT: Scaffold containerColor is set to Transparent to ensure
-                 * the bottom navigation bar's transparent areas show the content behind.
-                 */
                 Scaffold(
-                    containerColor = Color.Transparent,  // Transparent background
+                    containerColor = Color.Transparent,
                     contentColor = Color.Black,
-                    contentWindowInsets = WindowInsets(0.dp),  // Remove default insets
+                    contentWindowInsets = WindowInsets(0.dp),
                     bottomBar = {
                         if (showBottomBar) {
                             BottomNavigationBar(
                                 navController = navController,
+                                cartItemCount = cartItemCount,  // ← EKLENDI
                                 onFabClick = {
-                                    // Open Quick Order Sheet
                                     navController.navigate(Route.Home.createRoute(openQuickOrder = true)) {
-                                        popUpTo(Route.Home.route) {inclusive = true}
+                                        popUpTo(Route.Home.route) { inclusive = true }
                                     }
                                 }
                             )
@@ -88,6 +88,32 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+/**
+ * ViewModel for MainActivity managing global app state
+ *
+ * Observes cart item count for badge display on bottom navigation.
+ */
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    private val getCartItemCountUseCase: GetCartItemCountUseCase
+) : ViewModel() {
+
+    private val _cartItemCount = MutableStateFlow(0)
+    val cartItemCount = _cartItemCount.asStateFlow()
+
+    init {
+        loadCartCount()
+    }
+
+    private fun loadCartCount() {
+        viewModelScope.launch {
+            getCartItemCountUseCase().collect { count ->
+                _cartItemCount.value = count
             }
         }
     }

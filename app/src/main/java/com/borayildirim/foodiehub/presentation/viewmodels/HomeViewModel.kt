@@ -3,8 +3,11 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
+import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.model.Category
 import com.borayildirim.foodiehub.domain.model.Food
+import com.borayildirim.foodiehub.domain.usecase.cart.AddToCartUseCase
+import com.borayildirim.foodiehub.domain.usecase.cart.GetCartItemCountUseCase
 import com.borayildirim.foodiehub.domain.usecase.food.GetAllFoodsUseCase
 import com.borayildirim.foodiehub.domain.usecase.food.ToggleFavoriteUseCase
 import com.borayildirim.foodiehub.domain.usecase.user.GetUserByIdUseCase
@@ -15,6 +18,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Locale
+import java.util.UUID
 import javax.inject.Inject
 
 
@@ -37,7 +41,8 @@ data class HomeUiState (
     val isFilterExpanded: Boolean = false,
     val allFoods: List<Food> = emptyList(),
     val userProfileImage: String? = null,
-    val showQuickOrderSheet: Boolean = false
+    val showQuickOrderSheet: Boolean = false,
+    val cartItemCount: Int = 0
 )
 
 
@@ -46,7 +51,9 @@ class HomeViewModel @Inject constructor(
     private val getAllFoodsUseCase: GetAllFoodsUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val userPreferencesManager: UserPreferencesManager
+    private val userPreferencesManager: UserPreferencesManager,
+    private val getCartItemCountUseCase: GetCartItemCountUseCase,
+    private val addToCartUseCase: AddToCartUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -57,6 +64,7 @@ class HomeViewModel @Inject constructor(
     init {
         loadInitialData()
         loadUserProfile()
+        loadCartCount()
     }
 
     private fun loadInitialData() {
@@ -193,5 +201,36 @@ class HomeViewModel @Inject constructor(
 
     fun getFavoriteFoods(): List<Food> {
         return _uiState.value.allFoods.filter { it.isFavorite }
+    }
+
+    private fun loadCartCount() {
+        viewModelScope.launch {
+            try {
+                getCartItemCountUseCase().collect { count ->
+                    _uiState.update {
+                        it.copy(
+                            cartItemCount = count
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun addToCart(food: Food) {
+        viewModelScope.launch {
+            try {
+                val cartItem = CartItem(
+                    food = food,
+                    quantity = 1,
+                    itemId = UUID.randomUUID().toString()
+                )
+                addToCartUseCase(cartItem)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

@@ -8,7 +8,6 @@ import com.borayildirim.foodiehub.domain.model.Topping
 fun FoodEntity.toDomain(
     description: Int? = null,
     detailedDescription: Int? = null,
-    isFavorite: Boolean = false,
     availableToppings: List<Topping> = emptyList(),
     availableSideOptions: List<SideOption> = emptyList()
 ): Food {
@@ -22,7 +21,7 @@ fun FoodEntity.toDomain(
         categoryId = this.categoryId,
         description = description,
         detailedDescription = detailedDescription,
-        isFavorite = isFavorite,
+        isFavorite = this.isFavorite,
         availableToppings = availableToppings,
         availableSideOptions = availableSideOptions
     )
@@ -36,6 +35,7 @@ fun Food.toEntity(): FoodEntity {
         imageResource = this.imageResource,
         rating = this.rating,
         preparationTimeMinutes = this.preparationTimeMinutes,
-        categoryId = this.categoryId
+        categoryId = this.categoryId,
+        isFavorite = this.isFavorite
     )
 }

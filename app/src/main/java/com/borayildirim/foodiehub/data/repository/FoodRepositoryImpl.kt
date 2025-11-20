@@ -12,21 +12,30 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * FoodRepository implementation using Room database with reactive Flow updates
+ *
+ * Combines Room database entities with MockFoodData for additional details
+ * like descriptions, toppings, and side options. Manages favorite status
+ * persistence in database for app restart survival.
+ *
+ * Architecture:
+ * - Room database for core food data and favorite status
+ * - MockFoodData for UI-specific details (descriptions, customization options)
+ * - Flow-based reactive updates for automatic UI synchronization
+ */
 @Singleton
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao
 ): FoodRepository {
 
-    // In-memory favorite storage
-    private val favoriteIds = mutableSetOf<Int>()
     override fun getFoods(): Flow<List<Food>> {
         return foodDao.getAllFoods().map { entities ->
-            entities.map { entity->
+            entities.map { entity ->
                 val mockFood = MockFoodData.getAllFoods().find { it.id == entity.id }
                 entity.toDomain(
                     description = mockFood?.description,
                     detailedDescription = mockFood?.detailedDescription,
-                    isFavorite = favoriteIds.contains(entity.id),
                     availableToppings = mockFood?.availableToppings ?: emptyList(),
                     availableSideOptions = mockFood?.availableSideOptions ?: emptyList()
                 )
@@ -41,7 +50,6 @@ class FoodRepositoryImpl @Inject constructor(
                 it.toDomain(
                     description = mockFood?.description,
                     detailedDescription = mockFood?.detailedDescription,
-                    isFavorite = favoriteIds.contains(foodId),
                     availableToppings = mockFood?.availableToppings ?: emptyList(),
                     availableSideOptions = mockFood?.availableSideOptions ?: emptyList()
                 )
@@ -53,7 +61,7 @@ class FoodRepositoryImpl @Inject constructor(
         emit(
             listOf(
                 Category(id = 1, name = "All", isSelected = true),
-                Category(id = 2, name =  "Burgers", isSelected = false),
+                Category(id = 2, name = "Burgers", isSelected = false),
                 Category(id = 3, name = "Pizzas", isSelected = false),
                 Category(id = 4, name = "Salads", isSelected = false),
                 Category(id = 5, name = "Drinks", isSelected = false)
@@ -74,7 +82,6 @@ class FoodRepositoryImpl @Inject constructor(
                 entity.toDomain(
                     description = mockFood?.description,
                     detailedDescription = mockFood?.detailedDescription,
-                    isFavorite = favoriteIds.contains(entity.id),
                     availableToppings = mockFood?.availableToppings ?: emptyList(),
                     availableSideOptions = mockFood?.availableSideOptions ?: emptyList()
                 )
@@ -82,12 +89,21 @@ class FoodRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Toggles favorite status for a food item with database persistence
+     *
+     * Updates the isFavorite flag in Room database, triggering reactive
+     * Flow updates across all screens observing food data. Ensures favorite
+     * status persists across app restarts.
+     *
+     * @param foodId ID of the food item to toggle
+     */
     override suspend fun toggleFavorite(foodId: Int) {
-        if (favoriteIds.contains(foodId)) {
-            favoriteIds.remove(foodId)
-        } else {
-            favoriteIds.add(foodId)
+        val foodEntity = foodDao.getFoodByIdSync(foodId)
+
+        foodEntity?.let { entity ->
+            val updatedEntity = entity.copy(isFavorite = !entity.isFavorite)
+            foodDao.updateFood(updatedEntity)
         }
     }
-
 }
