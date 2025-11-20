@@ -36,27 +36,30 @@ import com.borayildirim.foodiehub.presentation.navigation.Route
 
 
 /**
- * Custom bottom navigation bar with integrated floating action button.
+ * Custom bottom navigation bar with integrated floating action button
  *
  * Features:
  * - Responsive design based on screen width
  * - Custom notched shape for FAB integration
  * - Dynamic icon states (filled/outlined) based on selection
+ * - Cart badge showing item count
  * - Material3 design system compliance
- * - TRANSPARENT BACKGROUND for content visibility
  *
  * @param navController Navigation controller for routing between screens
+ * @param cartItemCount Number of items in cart for badge display
+ * @param onFabClick Callback for FAB button clicks
  */
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
+    cartItemCount: Int = 0,  // ← YENİ PARAMETRE
     onFabClick: () -> Unit = {}
 ) {
     val currentDestination = navController.currentBackStackEntryAsState()
     val currentRoute = currentDestination.value?.destination?.route
 
     // Dynamic icon selection: filled when selected, outlined when inactive
-    val homeIcon = if (currentRoute == Route.Home.route) Icons.Filled.Home else Icons.Outlined.Home
+    val homeIcon = if (currentRoute?.startsWith("home") == true) Icons.Filled.Home else Icons.Outlined.Home
     val favIcon = if (currentRoute == Route.Favorites.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder
     val cartIcon = if (currentRoute == Route.Cart.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart
     val profileIcon = if (currentRoute == Route.Profile.route) Icons.Filled.Person else Icons.Outlined.Person
@@ -95,7 +98,7 @@ fun BottomNavigationBar(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 NavigationBarItem(
-                    selected = currentRoute == Route.Home.route,
+                    selected = currentRoute?.startsWith("home") == true,
                     onClick = { navController.navigate(Route.Home.route) },
                     icon = { Icon(homeIcon, contentDescription = "Home", tint = Color.White) },
                     colors = NavigationBarItemDefaults.colors(
@@ -122,7 +125,25 @@ fun BottomNavigationBar(
                 NavigationBarItem(
                     selected = currentRoute == Route.Cart.route,
                     onClick = { navController.navigate(Route.Cart.route) },
-                    icon = { Icon(cartIcon, contentDescription = "Cart", tint = Color.White) },
+                    icon = {
+                        BadgedBox(
+                            badge = {
+                                if (cartItemCount > 0) {
+                                    Badge(
+                                        containerColor = Color.White,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary
+                                    ) {
+                                        Text(
+                                            text = cartItemCount.toString(),
+                                            style = MaterialTheme.typography.labelSmall
+                                        )
+                                    }
+                                }
+                            }
+                        ) {
+                            Icon(cartIcon, contentDescription = "Cart", tint = Color.White)
+                        }
+                    },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color.White,
                         unselectedIconColor = Color.White.copy(alpha = 0.7f),

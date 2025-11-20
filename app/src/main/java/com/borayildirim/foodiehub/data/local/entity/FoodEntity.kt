@@ -11,5 +11,6 @@ data class FoodEntity(
     val imageResource: Int,
     val rating: Double?,
     val preparationTimeMinutes: Int?,
-    val categoryId: Int
+    val categoryId: Int,
+    val isFavorite: Boolean = false
 )

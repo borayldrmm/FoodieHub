@@ -74,10 +74,11 @@ fun HomeScreen(
     if (uiState.showQuickOrderSheet) {
         QuickOrderBottomSheet(
             favoriteFoods = viewModel.getFavoriteFoods(),
+            cartItemCount = uiState.cartItemCount,
             onDismiss = { viewModel.hideQuickOrderSheet() },
             onAddToCart = { food ->
                 // TODO: Add to cart logic (add later)
-                viewModel.hideQuickOrderSheet()
+                viewModel.addToCart(food)
             },
             onGoToCart = {
                 viewModel.hideQuickOrderSheet()

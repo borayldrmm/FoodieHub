@@ -15,11 +15,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -30,6 +34,11 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +50,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.borayildirim.foodiehub.R
 import com.borayildirim.foodiehub.domain.model.Food
+import kotlinx.coroutines.delay
+
+/**
+ * Animation states for add to cart button
+ */
+private enum class AddToCartState {
+    IDLE,       // Normal + icon
+    LOADING,    // CircularProgressIndicator
+    SUCCESS     // Green background + checkmark
+}
+
 
 /**
  * Bottom sheet for quick ordering from favorite foods
@@ -52,6 +72,7 @@ import com.borayildirim.foodiehub.domain.model.Food
 @Composable
 fun QuickOrderBottomSheet(
     favoriteFoods: List<Food>,
+    cartItemCount: Int,
     onDismiss: () -> Unit,
     onAddToCart: (Food) -> Unit,
     onGoToCart: () -> Unit,
@@ -83,13 +104,31 @@ fun QuickOrderBottomSheet(
                     fontWeight = FontWeight.Bold
                 )
 
-                IconButton(onClick = onGoToCart) {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = stringResource(R.string.cart),
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
+                BadgedBox(
+                    badge = {
+                        if (cartItemCount > 0) {
+                            Badge(
+                                containerColor = MaterialTheme.colorScheme.onPrimary,
+                                contentColor = Color.White
+                            ) {
+                                Text(
+                                    text = cartItemCount.toString(),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                ) {
+                    IconButton(onClick = onGoToCart) {
+                        Icon(
+                            imageVector = Icons.Default.ShoppingCart,
+                            contentDescription = stringResource(R.string.cart),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
                 }
+
             }
 
             // EmptyState
@@ -124,6 +163,23 @@ private fun QuickOrderFoodItem(
     food: Food,
     onAddToCart: () -> Unit
 ) {
+    var buttonState by remember { mutableStateOf(AddToCartState.IDLE) }
+
+    // Animation: LOADING (1.5s) → SUCCESS (3s) → IDLE
+    LaunchedEffect(buttonState) {
+        when (buttonState) {
+            AddToCartState.LOADING -> {
+                delay(1500) // 1.5 seconds loading
+                buttonState = AddToCartState.SUCCESS
+            }
+            AddToCartState.SUCCESS -> {
+                delay(3000) // 3 seconds success
+                buttonState = AddToCartState.IDLE
+            }
+            AddToCartState.IDLE -> { /* Do nothing */ }
+        }
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -141,10 +197,9 @@ private fun QuickOrderFoodItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             // Food Image
             Image(
-                painter = painterResource(id =  food.imageResource),
+                painter = painterResource(id = food.imageResource),
                 contentDescription = food.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -176,25 +231,58 @@ private fun QuickOrderFoodItem(
                 }
 
                 Text(
-                    text = "₺ ${String.format("%.2f", food.price)}",
+                    text = "₺${String.format("%.2f", food.price)}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
-            // Add to Cart Button
+            // Add to Cart Button with Animation
             FilledIconButton(
-                onClick = onAddToCart,
+                onClick = {
+                    if (buttonState == AddToCartState.IDLE) {
+                        onAddToCart()
+                        buttonState = AddToCartState.LOADING
+                    }
+                },
+                enabled = buttonState == AddToCartState.IDLE,
                 colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimary
-                )
+                    containerColor = when (buttonState) {
+                        AddToCartState.IDLE -> MaterialTheme.colorScheme.onPrimary
+                        AddToCartState.LOADING -> MaterialTheme.colorScheme.onPrimary
+                        AddToCartState.SUCCESS -> Color(0xFF4CAF50) // Green
+                    },
+                    disabledContainerColor = when (buttonState) {
+                        AddToCartState.SUCCESS -> Color(0xFF4CAF50)
+                        else -> MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
+                    }
+                ),
+                modifier = Modifier.size(48.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_to_cart),
-                    tint = Color.White
-                )
+                when (buttonState) {
+                    AddToCartState.IDLE -> {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = stringResource(R.string.add_to_cart),
+                            tint = Color.White
+                        )
+                    }
+                    AddToCartState.LOADING -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = Color.White,
+                            strokeWidth = 2.dp
+                        )
+                    }
+                    AddToCartState.SUCCESS -> {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Added",
+                            tint = Color.White
+                        )
+                    }
+                }
             }
         }
     }

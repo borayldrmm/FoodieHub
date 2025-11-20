@@ -13,6 +13,12 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * CartRepository implementation combining cart items with food data
+ *
+ * Uses Flow combine to reactively merge cart entities with food details,
+ * ensuring cart UI updates when either cart or food data changes.
+ */
 @Singleton
 class CartRepositoryImpl @Inject constructor(
     private val cartDao: CartDao,
@@ -31,7 +37,6 @@ class CartRepositoryImpl @Inject constructor(
                     val food = foodEntity.toDomain(
                         description = mockFood?.description,
                         detailedDescription = mockFood?.detailedDescription,
-                        isFavorite = false,
                         availableToppings = mockFood?.availableToppings ?: emptyList(),
                         availableSideOptions = mockFood?.availableSideOptions ?: emptyList()
                     )

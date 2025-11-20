@@ -26,7 +26,7 @@ import com.borayildirim.foodiehub.data.local.entity.UserEntity
         OrderItemEntity::class,
         AddressEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 
