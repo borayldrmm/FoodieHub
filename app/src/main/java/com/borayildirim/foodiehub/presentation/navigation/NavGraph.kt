@@ -38,7 +38,23 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Route.Add.route) { Text("Add Screen") }
 
-        composable(Route.Home.route) { HomeScreen(navController) }
+        composable(
+            route = Route.Home.route,
+            arguments = listOf(
+                navArgument("openQuickOrder") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) { backStackEntry ->
+            val openQuickOrder = backStackEntry.arguments?.getBoolean("openQuickOrder")
+                ?: false
+
+            HomeScreen(
+                navController = navController,
+                openQuickOrderOnStart = openQuickOrder
+            )
+        }
 
         composable(Route.Favorites.route) {
             FavoritesScreen(navController)

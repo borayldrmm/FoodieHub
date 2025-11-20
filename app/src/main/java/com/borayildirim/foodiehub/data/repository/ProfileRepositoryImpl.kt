@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * ProfileRepository implementation using Room and DataStore
+ */
 @Singleton
 class ProfileRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
@@ -18,7 +21,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrentUser(): User? {
         val userId = preferencesManager.getUserId().firstOrNull() ?: return null
-        val userEntity = userDao.getUserById(userId)
+        val userEntity = userDao.getUserById(userId).firstOrNull()
         return userEntity?.toDomain()
     }
 
@@ -31,11 +34,10 @@ class ProfileRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateDeliveryAddress(
-        address: String,
-    ): Result<Unit> {
+    override suspend fun updateDeliveryAddress(address: String): Result<Unit> {
         return try {
-            val user = getCurrentUser() ?: return Result.failure(Exception("Kullanıcı bulunamadı!"))
+            val user = getCurrentUser()
+                ?: return Result.failure(Exception("Kullanıcı bulunamadı!"))
             val updateUser = user.copy(deliveryAddress = address)
             userDao.updateUser(updateUser.toEntity())
             Result.success(Unit)
@@ -44,7 +46,9 @@ class ProfileRepositoryImpl @Inject constructor(
         }
     }
 
-
+    /**
+     * @throws Exception if user not found or current password is incorrect
+     */
     override suspend fun changePassword(
         currentPassword: String,
         newPassword: String

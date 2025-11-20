@@ -7,7 +7,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.borayildirim.foodiehub.data.local.entity.UserEntity
+import kotlinx.coroutines.flow.Flow
 
+/**
+ * DAO for user database operations
+ */
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -17,7 +21,7 @@ interface UserDao {
     suspend fun getUserByEmail(email: String): UserEntity?
 
     @Query("SELECT * FROM users WHERE userId = :userId")
-    suspend fun getUserById(userId: String): UserEntity?
+    fun getUserById(userId: String): Flow<UserEntity?>
 
     @Update
     suspend fun updateUser(user: UserEntity)

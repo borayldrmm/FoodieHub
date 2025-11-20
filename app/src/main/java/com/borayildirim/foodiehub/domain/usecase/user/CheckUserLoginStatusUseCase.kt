@@ -4,6 +4,9 @@ import com.borayildirim.foodiehub.domain.repository.UserRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Use case for checking user authentication status
+ */
 @Singleton
 class CheckUserLoginStatusUseCase @Inject constructor(
     private val userRepository: UserRepository

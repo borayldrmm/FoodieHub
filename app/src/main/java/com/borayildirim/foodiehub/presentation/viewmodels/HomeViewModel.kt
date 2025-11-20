@@ -2,17 +2,30 @@ package com.borayildirim.foodiehub.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.borayildirim.foodiehub.data.local.preferences.UserPreferencesManager
 import com.borayildirim.foodiehub.domain.model.Category
 import com.borayildirim.foodiehub.domain.model.Food
 import com.borayildirim.foodiehub.domain.usecase.food.GetAllFoodsUseCase
 import com.borayildirim.foodiehub.domain.usecase.food.ToggleFavoriteUseCase
+import com.borayildirim.foodiehub.domain.usecase.user.GetUserByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
+
+/**
+ * ViewModel for Home screen managing food catalog and user profile
+ *
+ * Features:
+ * - Food search and category filtering
+ * - Real-time profile image sync from ProfileScreen
+ * - Favorite toggle functionality
+ */
 
 const val CATEGORY_ALL_ID = 1
 data class HomeUiState (
@@ -22,14 +35,18 @@ data class HomeUiState (
     val isLoading: Boolean = false,
     val selectedCategoryId: Int = 1, // "All" category
     val isFilterExpanded: Boolean = false,
-    val allFoods: List<Food> = emptyList()
+    val allFoods: List<Food> = emptyList(),
+    val userProfileImage: String? = null,
+    val showQuickOrderSheet: Boolean = false
 )
 
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllFoodsUseCase: GetAllFoodsUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val userPreferencesManager: UserPreferencesManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -39,6 +56,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadInitialData()
+        loadUserProfile()
     }
 
     private fun loadInitialData() {
@@ -143,5 +161,37 @@ class HomeViewModel @Inject constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun loadUserProfile() {
+        viewModelScope.launch {
+            try {
+                val userId = userPreferencesManager.getUserId().firstOrNull()
+                if (userId != null) {
+                    getUserByIdUseCase(userId).collect { user ->
+                        _uiState.update {
+                            it.copy(
+                                userProfileImage = user?.profilePicture
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                // Silent fail for profile image
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun showQuickOrderSheet() {
+        _uiState.value = _uiState.value.copy(showQuickOrderSheet = true)
+    }
+
+    fun hideQuickOrderSheet() {
+        _uiState.value = _uiState.value.copy(showQuickOrderSheet = false)
+    }
+
+    fun getFavoriteFoods(): List<Food> {
+        return _uiState.value.allFoods.filter { it.isFavorite }
     }
 }

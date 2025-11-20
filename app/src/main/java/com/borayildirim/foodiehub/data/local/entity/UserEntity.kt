@@ -4,7 +4,16 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users", indices = [Index(value = ["email"], unique = true)])
+/**
+ * Room entity for user data storage
+ *
+ * @property userId Primary key (UUID)
+ * @property email Unique, indexed for fast authentication lookup
+ */
+@Entity(
+    tableName = "users",
+    indices = [Index(value = ["email"], unique = true)]
+)
 data class UserEntity(
     @PrimaryKey val userId: String,
     val fullName: String,
