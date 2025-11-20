@@ -7,7 +7,10 @@ sealed class Route(val route: String) {
 
     data object Register: Route("register")
 
-    data object Home: Route("home")
+    data object Home: Route("home?openQuickOrder={openQuickOrder}") {
+        fun createRoute(openQuickOrder: Boolean = false) =
+            "home?openQuickOrder=$openQuickOrder"
+    }
 
     data object Cart: Route("cart")
 

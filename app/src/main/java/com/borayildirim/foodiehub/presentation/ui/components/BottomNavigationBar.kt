@@ -48,7 +48,10 @@ import com.borayildirim.foodiehub.presentation.navigation.Route
  * @param navController Navigation controller for routing between screens
  */
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(
+    navController: NavController,
+    onFabClick: () -> Unit = {}
+) {
     val currentDestination = navController.currentBackStackEntryAsState()
     val currentRoute = currentDestination.value?.destination?.route
 
@@ -142,7 +145,7 @@ fun BottomNavigationBar(navController: NavController) {
 
         // Floating Action Button
         FloatingActionButton(
-            onClick = { navController.navigate(Route.Add.route) },
+            onClick = onFabClick,
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.onPrimary,
             contentColor = Color.White,

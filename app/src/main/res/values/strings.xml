@@ -227,4 +227,10 @@
     <string name="delete_card_title">Kartı Sil</string>
     <string name="delete_card_message">Bu kartı silmek istediğinizden emin misiniz?</string>
 
+    <!-- Quick Order Bottom Sheet -->
+    <string name="quick_order">Hızlı Sipariş</string>
+    <string name="cart">Sepet</string>
+    <string name="add_to_cart">Sepete Ekle</string>
+    <string name="no_favorite_foods">Henüz favori ürününüz yok</string>
+
 </resources>

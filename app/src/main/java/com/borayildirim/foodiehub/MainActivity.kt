@@ -70,7 +70,15 @@ class MainActivity : ComponentActivity() {
                     contentWindowInsets = WindowInsets(0.dp),  // Remove default insets
                     bottomBar = {
                         if (showBottomBar) {
-                            BottomNavigationBar(navController)
+                            BottomNavigationBar(
+                                navController = navController,
+                                onFabClick = {
+                                    // Open Quick Order Sheet
+                                    navController.navigate(Route.Home.createRoute(openQuickOrder = true)) {
+                                        popUpTo(Route.Home.route) {inclusive = true}
+                                    }
+                                }
+                            )
                         }
                     }
                 ) { paddingValues ->
