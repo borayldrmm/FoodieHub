@@ -10,10 +10,11 @@ import kotlinx.coroutines.flow.Flow
 
 
 /**
- * Data Access Object for Order operations
+ * DAO for order database operations with transaction support
  *
- * Provides Flow-based queries for reactive data updates
- * and Transaction support for atomic operations
+ * Manages orders and order items with atomic transaction guarantees
+ * for data consistency. Provides reactive Flow queries for real-time
+ * order status updates.
  */
 @Dao
 interface OrderDao {

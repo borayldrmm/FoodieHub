@@ -14,7 +14,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * UserRepository implementation using Room and DataStore
+ * Repository implementation for user authentication and profile management
+ *
+ * Combines Room database for persistent user data with DataStore for
+ * lightweight session management. Uses Result type for explicit error
+ * handling in authentication flows.
+ *
+ * Architecture:
+ * - Room: User profiles and credentials
+ * - DataStore: Session state (userId only)
+ * - Result type: Type-safe error handling
+ *
+ * Security note: Plain text passwords for mock app only.
  */
 @Singleton
 class UserRepositoryImpl @Inject constructor(

@@ -5,6 +5,18 @@ import com.borayildirim.foodiehub.domain.model.Food
 import com.borayildirim.foodiehub.domain.model.SideOption
 import com.borayildirim.foodiehub.domain.model.Topping
 
+/**
+ * Converts FoodEntity to domain Food with UI-specific data
+ *
+ * Merges database entity with MockFoodData to create complete domain model.
+ * Entity stores persistent data while MockFoodData provides UI strings and
+ * customization options to avoid storing resource IDs in database.
+ *
+ * @param description String resource ID for short description
+ * @param detailedDescription String resource ID for long description
+ * @param availableToppings Customization options from MockFoodData
+ * @param availableSideOptions Side dish options from MockFoodData
+ */
 fun FoodEntity.toDomain(
     description: Int? = null,
     detailedDescription: Int? = null,
@@ -27,6 +39,13 @@ fun FoodEntity.toDomain(
     )
 }
 
+/**
+ * Converts domain Food to entity for database storage
+ *
+ * Extracts only persistent data (core properties and favorite status).
+ * UI-specific data (descriptions, customizations) are excluded as they
+ * come from MockFoodData at runtime.
+ */
 fun Food.toEntity(): FoodEntity {
     return FoodEntity(
         id = this.id,

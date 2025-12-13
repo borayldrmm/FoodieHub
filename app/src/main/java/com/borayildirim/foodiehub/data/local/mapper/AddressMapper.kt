@@ -4,6 +4,11 @@ import com.borayildirim.foodiehub.data.local.entity.AddressEntity
 import com.borayildirim.foodiehub.domain.model.Address
 import com.borayildirim.foodiehub.domain.model.AddressType
 
+/**
+ * Converts AddressEntity to domain Address
+ *
+ * Parses string addressType to enum for type-safe domain representation.
+ */
 fun AddressEntity.toDomain(): Address {
     return Address(
         id = id,
@@ -21,6 +26,11 @@ fun AddressEntity.toDomain(): Address {
     )
 }
 
+/**
+ * Converts domain Address to entity for database storage
+ *
+ * Serializes enum to string for Room compatibility.
+ */
 fun Address.toEntity(): AddressEntity {
     return AddressEntity(
         id = id,

@@ -14,10 +14,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * CartRepository implementation combining cart items with food data
+ * Repository implementation for cart operations with reactive food data merging
  *
- * Uses Flow combine to reactively merge cart entities with food details,
- * ensuring cart UI updates when either cart or food data changes.
+ * Combines cart items with food details using Flow operators for automatic
+ * UI synchronization when either cart or food data changes. Integrates
+ * MockFoodData for UI-specific content like descriptions and customizations.
+ *
+ * Architecture:
+ * - Normalized storage: CartItemEntity stores only foodId and quantity
+ * - Runtime joins: Food details merged via Flow.combine
+ * - Reactive updates: UI auto-refreshes on cart/food changes
  */
 @Singleton
 class CartRepositoryImpl @Inject constructor(

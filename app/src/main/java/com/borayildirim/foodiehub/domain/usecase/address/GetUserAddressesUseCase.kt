@@ -5,6 +5,11 @@ import com.borayildirim.foodiehub.domain.repository.AddressRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * Use case for retrieving all user addresses
+ *
+ * Returns reactive Flow for real-time address list updates.
+ */
 class GetUserAddressesUseCase @Inject constructor(
     private val repository: AddressRepository
 ) {

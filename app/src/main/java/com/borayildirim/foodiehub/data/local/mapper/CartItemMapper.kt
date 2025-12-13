@@ -4,7 +4,13 @@ import com.borayildirim.foodiehub.data.local.entity.CartItemEntity
 import com.borayildirim.foodiehub.domain.model.CartItem
 import com.borayildirim.foodiehub.domain.model.Food
 
-// Entity --> Domain
+/**
+ * Converts CartItemEntity to domain CartItem with full food details
+ *
+ * Requires Food object since entity stores only foodId for normalization.
+ *
+ * @param food Complete food data joined from foods table
+ */
 fun CartItemEntity.toDomain(food: Food): CartItem {
     return CartItem(
         food = food,
@@ -13,7 +19,11 @@ fun CartItemEntity.toDomain(food: Food): CartItem {
     )
 }
 
-// Domain --> Entity
+/**
+ * Converts domain CartItem to entity for database storage
+ *
+ * Extracts only essential data (foodId, quantity) for normalized storage.
+ */
 fun CartItem.toEntity(): CartItemEntity {
     return CartItemEntity(
         itemId = this.itemId,

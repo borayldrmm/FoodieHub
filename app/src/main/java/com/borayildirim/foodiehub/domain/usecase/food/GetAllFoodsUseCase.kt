@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Use case for retrieving all food items with reactive updates
+ */
 @Singleton
 class GetAllFoodsUseCase @Inject constructor(
     private val foodRepository: FoodRepository

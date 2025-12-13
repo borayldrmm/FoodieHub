@@ -6,6 +6,13 @@ import com.borayildirim.foodiehub.domain.model.Order
 import com.borayildirim.foodiehub.domain.model.OrderItem
 import com.borayildirim.foodiehub.domain.model.OrderStatus
 
+/**
+ * Converts OrderEntity to domain Order with order items
+ *
+ * Joins order header with items for complete order representation.
+ *
+ * @param items Order items from separate table (normalized storage)
+ */
 fun OrderEntity.toDomain(items: List<OrderItemEntity> = emptyList()): Order {
     return Order(
         id = id,
@@ -21,6 +28,12 @@ fun OrderEntity.toDomain(items: List<OrderItemEntity> = emptyList()): Order {
     )
 }
 
+/**
+ * Converts domain Order to entity for database storage
+ *
+ * Note: Items are not included - they must be inserted separately
+ * via OrderDao.insertOrderItems() or insertOrderWithItems() transaction.
+ */
 fun Order.toEntity(): OrderEntity {
     return OrderEntity(
         id = id,
@@ -35,6 +48,11 @@ fun Order.toEntity(): OrderEntity {
     )
 }
 
+/**
+ * Converts OrderItemEntity to domain OrderItem
+ *
+ * Parses comma-separated strings for toppings and sides.
+ */
 fun OrderItemEntity.toDomain(): OrderItem {
     return OrderItem(
         id = id,
@@ -50,6 +68,11 @@ fun OrderItemEntity.toDomain(): OrderItem {
     )
 }
 
+/**
+ * Converts domain OrderItem to entity for database storage
+ *
+ * Serializes lists to comma-separated strings for simple storage.
+ */
 fun OrderItem.toEntity(): OrderItemEntity {
     return OrderItemEntity(
         id = id,

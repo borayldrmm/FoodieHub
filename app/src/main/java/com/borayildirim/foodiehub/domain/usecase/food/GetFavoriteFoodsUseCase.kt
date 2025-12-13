@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Use case for retrieving favorite foods with reactive updates
+ */
 @Singleton
 class GetFavoriteFoodsUseCase @Inject constructor(
     private val foodRepository: FoodRepository

@@ -11,7 +11,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * ProfileRepository implementation using Room and DataStore
+ * Repository implementation for user profile operations
+ *
+ * Manages profile updates and password changes with session validation
+ * via DataStore. Provides type-safe error handling with Result type.
+ *
+ * Architecture:
+ * - DataStore: Session management (userId)
+ * - Room: User profile storage
+ * - Result type: Explicit error handling
  */
 @Singleton
 class ProfileRepositoryImpl @Inject constructor(
@@ -38,8 +46,8 @@ class ProfileRepositoryImpl @Inject constructor(
         return try {
             val user = getCurrentUser()
                 ?: return Result.failure(Exception("Kullanıcı bulunamadı!"))
-            val updateUser = user.copy(deliveryAddress = address)
-            userDao.updateUser(updateUser.toEntity())
+            val updatedUser = user.copy(deliveryAddress = address)
+            userDao.updateUser(updatedUser.toEntity())
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -47,7 +55,9 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     /**
-     * @throws Exception if user not found or current password is incorrect
+     * Changes user password with current password verification
+     *
+     * @throws Exception if user not found or current password incorrect
      */
     override suspend fun changePassword(
         currentPassword: String,
@@ -59,8 +69,8 @@ class ProfileRepositoryImpl @Inject constructor(
             throw Exception("Mevcut şifre yanlış!")
         }
 
-        val updateUser = user.copy(password = newPassword)
-        userDao.updateUser(updateUser.toEntity())
+        val updatedUser = user.copy(password = newPassword)
+        userDao.updateUser(updatedUser.toEntity())
     }
 
     override suspend fun logout(): Result<Unit> {

@@ -4,6 +4,9 @@ import com.borayildirim.foodiehub.domain.model.Order
 import com.borayildirim.foodiehub.domain.repository.OrderRepository
 import javax.inject.Inject
 
+/**
+ * Use case for creating new order
+ */
 class CreateOrderUseCase @Inject constructor(
     private val orderRepository: OrderRepository
 ) {
