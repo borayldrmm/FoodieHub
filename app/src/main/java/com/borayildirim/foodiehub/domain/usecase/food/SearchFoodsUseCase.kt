@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Use case for searching foods by name query
+ */
 @Singleton
 class SearchFoodsUseCase @Inject constructor(
     private val foodRepository: FoodRepository

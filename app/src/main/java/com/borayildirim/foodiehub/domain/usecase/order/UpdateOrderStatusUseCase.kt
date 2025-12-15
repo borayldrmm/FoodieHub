@@ -4,6 +4,9 @@ import com.borayildirim.foodiehub.domain.model.OrderStatus
 import com.borayildirim.foodiehub.domain.repository.OrderRepository
 import javax.inject.Inject
 
+/**
+ * Use case for updating order status
+ */
 class UpdateOrderStatusUseCase @Inject constructor(
     private val orderRepository: OrderRepository
 ) {

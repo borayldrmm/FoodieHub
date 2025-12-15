@@ -10,10 +10,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Repository implementation for order operations with item joining
+ *
+ * Manages orders with reactive Flow queries that automatically join
+ * order headers with their items. Uses Flow operators to merge data
+ * from normalized storage for complete order representation.
+ *
+ * Architecture:
+ * - Normalized storage: Orders and items in separate tables
+ * - Runtime joins: Flow.combine merges related data
+ * - Atomic writes: Transaction support for order creation
+ */
 class OrderRepositoryImpl @Inject constructor(
     private val orderDao: OrderDao
 ) : OrderRepository {
@@ -21,11 +31,11 @@ class OrderRepositoryImpl @Inject constructor(
     override fun getUserOrders(userId: String): Flow<List<Order>> {
         return flow {
             orderDao.getUserOrders(userId).collect { orderEntities ->
-                val orderWithItems = orderEntities.map { orderEntity ->
+                val ordersWithItems = orderEntities.map { orderEntity ->
                     val items = orderDao.getOrderItems(orderEntity.id).first()
                     orderEntity.toDomain(items)
                 }
-                emit(orderWithItems)
+                emit(ordersWithItems)
             }
         }
     }
@@ -39,6 +49,12 @@ class OrderRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Creates order with items in atomic transaction
+     *
+     * Ensures both order and items are inserted together - either
+     * both succeed or both fail for data consistency.
+     */
     override suspend fun createOrder(order: Order) {
         orderDao.insertOrderWithItems(
             order = order.toEntity(),

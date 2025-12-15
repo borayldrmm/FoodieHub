@@ -52,4 +52,5 @@ interface FoodDao {
 
     @Query("DELETE FROM foods")
     suspend fun deleteAll()
+
 }

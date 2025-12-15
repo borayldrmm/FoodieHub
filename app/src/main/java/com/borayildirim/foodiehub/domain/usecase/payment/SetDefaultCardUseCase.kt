@@ -4,6 +4,9 @@ import com.borayildirim.foodiehub.domain.repository.PaymentCardRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Use case for setting payment card as default
+ */
 @Singleton
 class SetDefaultCardUseCase @Inject constructor(
     private val repository: PaymentCardRepository

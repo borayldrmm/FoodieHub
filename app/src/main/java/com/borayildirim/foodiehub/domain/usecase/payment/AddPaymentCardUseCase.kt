@@ -5,6 +5,9 @@ import com.borayildirim.foodiehub.domain.repository.PaymentCardRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Use case for adding payment card to user account
+ */
 @Singleton
 class AddPaymentCardUseCase @Inject constructor(
     private val repository: PaymentCardRepository
