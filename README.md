@@ -175,12 +175,10 @@ class MainActivityViewModel @Inject constructor(
 ## 📱 Screenshots
 
 <div align="center">
-  
-| Home Screen | Food Detail | Cart | Profile |
-|-------------|-------------|------|---------|
-| ![Home](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/home.jpg?raw=true) | ![Detail](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/detail.jpg?raw=true) | ![Cart](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/cart.jpg?raw=true) | ![Profile](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/profile.jpg?raw=true) |
-
-
+  <img src="https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/home.jpg?raw=true" alt="Home Screen" width="200"/>
+  <img src="https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/detail.jpg?raw=true" alt="Food Detail" width="200"/>
+  <img src="https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/cart.jpg?raw=true" alt="Cart" width="200"/>
+  <img src="https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/profile.jpg?raw=true" alt="Profile" width="200"/>
 </div>
 
 ---
