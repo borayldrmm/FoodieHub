@@ -178,7 +178,7 @@ class MainActivityViewModel @Inject constructor(
   
 | Home Screen | Food Detail | Cart | Profile |
 |-------------|-------------|------|---------|
-| ![Home](screenshots/home.png) | ![Detail](screenshots/detail.png) | ![Cart](screenshots/cart.png) | ![Profile](screenshots/profile.png) |
+| ![Home](screenshots/home.jpg) | ![Detail](screenshots/detail.jpg) | ![Cart](screenshots/cart.jpg) | ![Profile](screenshots/profile.jpg) |
 
 </div>
 
