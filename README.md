@@ -178,7 +178,8 @@ class MainActivityViewModel @Inject constructor(
   
 | Home Screen | Food Detail | Cart | Profile |
 |-------------|-------------|------|---------|
-| ![Home](screenshots/home.jpg) | ![Detail](screenshots/detail.jpg) | ![Cart](screenshots/cart.jpg) | ![Profile](screenshots/profile.jpg) |
+| ![Home](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/home.jpg?raw=true) | ![Detail](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/detail.jpg?raw=true) | ![Cart](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/cart.jpg?raw=true) | ![Profile](https://github.com/borayldrmm/FoodieHub/blob/main/screenshots/profile.jpg?raw=true) |
+
 
 </div>
 
