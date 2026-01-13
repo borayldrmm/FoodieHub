@@ -281,7 +281,7 @@ This project demonstrates proficiency in:
 
 ## 🤝 Contributing
 
-This is a portfolio project and not open for contributions. However, feedback and suggestions are welcome!
+This is a portfolio project and not open for contributions. However, feedback and suggestions are welcome.
 
 ---
 
@@ -305,6 +305,8 @@ This project is for educational purposes and portfolio demonstration.
 Special thanks to **Atıl Samancıoğlu** and **Kasım Adalan** for mentorship and guidance throughout the Android Mobile Application Development Course!
 
 ---
+
+<!-- YOLO test change -->
 
 <div align="center">
   
