@@ -302,7 +302,7 @@ This project is for educational purposes and portfolio demonstration.
 
 ## 🙏 Acknowledgments
 
-Special thanks to **Atıl Samancıoğlu** and **Kasım Adalan** for mentorship and guidance throughout the Android Mobile Application Development Course.
+Special thanks to **Atıl Samancıoğlu** and **Kasım Adalan** for mentorship and guidance throughout the Android Mobile Application Development Course!
 
 ---
 
